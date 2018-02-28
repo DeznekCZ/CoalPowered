@@ -1,0 +1,10 @@
+{
+  "name": "CoalPowered",
+  "version": "0.0.1",
+  "title": "Coal Powered",
+  "author": "DeznekCZ",
+  "contact": "www.facebook.com/DeznekCZ",
+  "homepage": "",
+  "description": "Mod removes electricity transfers (no production, no consuption, no storage).",
+  "factorio_version": "0.16"
+}
