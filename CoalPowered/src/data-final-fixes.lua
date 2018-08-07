@@ -94,14 +94,17 @@ data.raw.recipe["production-science-pack"].ingredients =
     }
     
 data.raw.item["solar-panel"].place_result = nil
+data.raw["solar-panel"]["solar-panel"].order = data.raw.item["solar-panel"].order
 data.raw.item["solar-panel"].flags = {"goes-to-main-inventory"}
 data.raw.item["accumulator"].place_result = nil
+data.raw.accumulator.accumulator.order = data.raw.item["accumulator"].order
 data.raw.item["accumulator"].flags = {"goes-to-main-inventory"}
 
-data.raw.accumulator.accumulator = nil
-data.raw["solar-panel"]["solar-panel"] = nil
+--data.raw.accumulator.accumulator = nil
+--data.raw["solar-panel"]["solar-panel"] = nil
 
-data.raw.recipe["steam-engine"] = nil
+--data.raw.recipe["steam-engine"] = nil
+data.raw.recipe["steam-engine"].enabled = false
 data.raw.recipe["boiler"].enabled = false
 
 data.raw["dont-use-entity-in-energy-production-achievement"]["solaris"] = nil
@@ -340,7 +343,9 @@ data:extend{
 	}
 }
 
-data.raw.lamp["small-lamp"] = nil
+--data.raw.lamp["small-lamp"] = nil
+data.raw.item["small-lamp"].place_result = "fire-site"
+data.raw.lamp["small-lamp"].order = data.raw.item["small-lamp"].order
 data:extend{ create_lamp() }
 
 

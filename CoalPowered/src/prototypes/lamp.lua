@@ -1,7 +1,7 @@
 
 function create_lamp () return {
     type = "reactor",
-    name = "small-lamp",
+    name = "fire-site",
     icon  = "__base__/graphics/icons/small-lamp.png",
     icon_size = 32,
     flags = {"placeable-neutral", "player-creation"},
