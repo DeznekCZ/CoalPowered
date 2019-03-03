@@ -10,8 +10,9 @@ function create_lamp () return {
     corpse = "small-remnants",
     consumption = "100kW",
     neighbour_bonus = 0,
-    burner =
+    energy_source =
     {
+      type = "burner",
       fuel_category = "chemical",
       effectivity = 1,
       fuel_inventory_size = 1,
@@ -194,8 +195,9 @@ function create_oil_lamp () return {
     corpse = "small-remnants",
     consumption = "30kW",
     neighbour_bonus = 0,
-    burner =
+    energy_source =
     {
+      type = "burner",
       fuel_category = "lamp-oil",
       effectivity = 0.5,
       fuel_inventory_size = 1,
@@ -366,3 +368,71 @@ function create_oil_lamp () return {
     },
   }
 end
+
+local lamp_oil = data.raw.item["petroleum-gas-barrel"]
+lamp_oil.fuel_category = "lamp-oil"
+lamp_oil.fuel_value = "60MJ"
+lamp_oil.burnt_result = "empty-barrel"
+
+local new_oil_lamp_item =util.table.deepcopy(data.raw.item["small-lamp"])
+new_oil_lamp_item.name = "oil-lamp"
+new_oil_lamp_item.order = "a[light]-b[oil-lamp]"
+new_oil_lamp_item.place_result = "oil-lamp"
+
+data:extend{
+  create_lamp(),
+  create_oil_lamp(),
+  new_oil_lamp_item,
+  {
+    enabled = false,
+      type = "recipe",
+      name = "oil-lamp",
+      normal =
+      {
+        energy_required = 1.5,
+        ingredients =
+        {
+          {"iron-stick", 4},
+          {"iron-plate", 2}
+        },
+        result = "oil-lamp"
+      },
+      expensive =
+      {
+        energy_required = 3,
+        ingredients =
+        {
+          {"iron-stick", 8},
+          {"iron-plate", 4}
+        },
+        result = "oil-lamp"
+      }
+  },
+  {
+    enabled = true,
+      type = "recipe",
+      name = "small-lamp",
+      normal =
+      {
+        energy_required = 0.5,
+        ingredients =
+        {
+          {"stone", 3}
+        },
+        result = "small-lamp"
+      },
+      expensive =
+      {
+        energy_required = 0.5,
+        ingredients =
+        {
+          {"stone", 4}
+        },
+        result = "small-lamp"
+      }
+  }
+}
+
+--data.raw.lamp["small-lamp"] = nil
+data.raw.item["small-lamp"].place_result = "fire-site"
+data.raw.lamp["small-lamp"].order = data.raw.item["small-lamp"].order

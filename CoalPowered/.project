@@ -33,7 +33,7 @@
 		<link>
 			<name>factorio_base</name>
 			<type>2</type>
-			<locationURI>factorio_base</locationURI>
+			<location>C:/Program Files (x86)/Steam/steamapps/common/Factorio/data/base</location>
 		</link>
 	</linkedResources>
 </projectDescription>

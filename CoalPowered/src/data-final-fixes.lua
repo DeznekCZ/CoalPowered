@@ -1,114 +1,15 @@
 
-local forbiden_technologies = {
-	"electric-energy-distribution-1",
-	"electric-energy-distribution-2",
-	"electric-energy-accumulators-1",
-	"advanced-material-processing-2",
-	"fluid-wagon",
-	"laser-turrets",
-	"discharge-defense-equipment",
-	"laser-turret-damage-1",
-	"laser-turret-damage-2",
-	"laser-turret-damage-3",
-	"laser-turret-damage-4",
-	"laser-turret-damage-5",
-	"laser-turret-damage-6",
-	"laser-turret-damage-7",
-	"laser-turret-damage-8",
-	"laser-turret-speed-1",
-	"laser-turret-speed-2",
-	"laser-turret-speed-3",
-	"laser-turret-speed-4",
-	"laser-turret-speed-5",
-	"laser-turret-speed-6",
-	"laser-turret-speed-7",
-	"laser-turret-speed-8",
-	"personal-laser-defense-equipment"
-}
-
-for tech_name, tech_data in pairs(data.raw.technology) do
-	for _, forbiden in pairs (forbiden_technologies) do
-		 if forbiden == tech_name then
-		 	tech_data.enabled = false
-		 end
-	end
+function with(data, changes, clear)
+  if not clear then clear = {"_no_fields_"} end
+  for k,v in pairs(changes) do
+    data[k] = v
+  end
+  for _,v in pairs(clear) do
+    data[v] = nil
+  end
 end
 
-table.insert(data.raw.technology["oil-processing"].effects,{
-        type = "unlock-recipe",
-        recipe = "oil-lamp"
-      })
-
-data.raw.technology["nuclear-power"].effects = {
-      {
-        type = "unlock-recipe",
-        recipe = "centrifuge"
-      },
-      {
-        type = "unlock-recipe",
-        recipe = "uranium-processing"
-      },
-      {
-        type = "unlock-recipe",
-        recipe = "clear-uranium"
-      }
-    }
-    
-data.raw.technology["coal-liquefaction"].effects = {
-      {
-        type = "unlock-recipe",
-        recipe = "boiler"
-      },
-      {
-        type = "unlock-recipe",
-        recipe = "coal-liquefaction"
-      }
-   }
-    
-data.raw.technology["advanced-material-processing"].effects =
-    {
-      {
-        type = "unlock-recipe",
-        recipe = "steel-furnace"
-      },
-      {
-        type = "unlock-recipe",
-        recipe = "production-science-pack"
-      },
-      {
-        type = "unlock-recipe",
-        recipe = "burner-mining-drill-2"
-      },
-      {
-        type = "unlock-recipe",
-        recipe = "burner-mining-drill-2-upgrade"
-      }
-    }
-    
-data.raw.recipe["production-science-pack"].ingredients =
-    {
-     {"electric-engine-unit", 1},
-     {"steel-furnace", 1},
-     {"steel-plate", 4},
-     {"advanced-circuit", 5}
-    }
-    
-data.raw.item["solar-panel"].place_result = nil
-data.raw["solar-panel"]["solar-panel"].order = data.raw.item["solar-panel"].order
-data.raw.item["solar-panel"].flags = {"goes-to-main-inventory"}
-data.raw.item["accumulator"].place_result = nil
-data.raw.accumulator.accumulator.order = data.raw.item["accumulator"].order
-data.raw.item["accumulator"].flags = {"goes-to-main-inventory"}
-
---data.raw.accumulator.accumulator = nil
---data.raw["solar-panel"]["solar-panel"] = nil
-
---data.raw.recipe["steam-engine"] = nil
-data.raw.recipe["steam-engine"].enabled = false
-data.raw.recipe["boiler"].enabled = false
-
-data.raw["dont-use-entity-in-energy-production-achievement"]["solaris"] = nil
-data.raw["dont-use-entity-in-energy-production-achievement"]["steam-all-the-way"] = nil
+require("prototypes.tech")
 
 --[[ UTIL ]]--
 
@@ -147,26 +48,46 @@ local recipes = data.raw.recipe
 -- Assembling machine 1
 assemblers["assembling-machine-1"].energy_source = new_burner{emissions = 0.01}
 recipes["assembling-machine-1"].ingredients = {
-	{"electronic-circuit", 3},
-	{"iron-gear-wheel", 5},
+	{"simple-gear-box", 5},
 	{"iron-plate", 9},
 	{"stone-furnace", 1}
 }
 
 -- Assembling machine 2
 assemblers["assembling-machine-2"].energy_source = new_burner{}
+recipes["assembling-machine-2"].enabled = false
+recipes["assembling-machine-2"].normal = nil
+recipes["assembling-machine-2"].expensive = nil
+recipes["assembling-machine-2"].result = "assembling-machine-2"
+recipes["assembling-machine-2"].ingredients = {
+  {"simple-gear-box", 5},
+  {"steel-plate", 2},
+  {"assembling-machine-1", 1}
+}
 
 -- Assembling machine 3
 assemblers["assembling-machine-3"].energy_source = new_burner{emissions = 0.03}
+recipes["assembling-machine-3"].ingredients = {
+  {"speed-module", 2},
+  {"assembling-machine-2", 2}
+}
 
 -- Chemical plant
 assemblers["chemical-plant"].energy_source = new_burner{emissions = 0.04}
 
 --[[ INSERTERS ]]--
 
+local function multiple_single_consuption(origin, value)
+  local appendix = origin:gsub("[^%D]+", "")
+  local number = origin:gsub("%D+", "")
+  return (tonumber(number) * value) .. appendix
+end
+
 local function increase_consuption(inserter)
-	data.raw.inserter[inserter].energy_per_movement = data.raw.inserter[inserter].energy_per_movement * 20
-	data.raw.inserter[inserter].energy_per_rotation = data.raw.inserter[inserter].energy_per_rotation * 20
+	data.raw.inserter[inserter].energy_per_movement
+	 = multiple_single_consuption( data.raw.inserter[inserter].energy_per_movement, 20 )
+	data.raw.inserter[inserter].energy_per_rotation
+	 = multiple_single_consuption( data.raw.inserter[inserter].energy_per_rotation, 20 )
 end
 
 local function replace_energy(inserter)
@@ -212,11 +133,11 @@ data.raw.recipe.lab.ingredients = {
 
 data.raw.recipe["small-electric-pole"] = nil
 data.raw.recipe["electric-mining-drill"] = nil
-data.raw.recipe["science-pack-3"].ingredients =
+data.raw.recipe["production-science-pack"].ingredients =
     {
-      {"advanced-circuit", 1},
-      {"engine-unit", 1},
-      {"electronic-circuit", 5},
+      {"steel-furnace", 1},
+      {"productivity-module", 1},
+      {"rail", 30},
     }
 ----[[
 data.raw["pump"]["pump"].energy_source = new_burner{
@@ -225,15 +146,7 @@ data.raw["pump"]["pump"].energy_source = new_burner{
 }
 --]]--
 ----[[
-data.raw["roboport"]["roboport"].energy_source = new_burner({
-	emissions = 0.05,
-	fuel_inventory_size = 2,
-	extra = {
-      usage_priority = "secondary-input",
-      input_flow_limit = "5MW",
-      buffer_capacity = "100MJ"
-    }
-})
+data.raw["roboport"]["roboport"].energy_source.usage_priority = "solar"
 --]]--
 data.raw["radar"]["radar"].energy_source = new_burner{
 	emissions = 0.05,
@@ -260,92 +173,9 @@ data:extend{
 }
 
 
-local lamp_oil = data.raw.item["petroleum-gas-barrel"]
-lamp_oil.fuel_category = "lamp-oil"
-lamp_oil.fuel_value = "60MJ"
-lamp_oil.burnt_result = "empty-barrel"
---[[
-local vehicle_fuel = data.raw.item["light-oil-barrel"]
-vehicle_fuel.fuel_category = "vehicle-fuel"
-vehicle_fuel.fuel_value = "125MJ"
-vehicle_fuel.burnt_result = "empty-barrel"
-
-local locomotive = data.raw.locomotive.locomotive
-locomotive.burner.fuel_category = "vehicle-fuel"
-locomotive.burnt_inventory_size = 3
-
-local car = data.raw.car.car
-car.burner.fuel_category = "vehicle-fuel"
-car.burnt_inventory_size = 1
-
-local tank = data.raw.car.tank
-tank.burner.fuel_category = "vehicle-fuel"
-tank.burnt_inventory_size = 2
---]]
-
+require ("prototypes.gearbox")
+require ("prototypes.module")
 require ("prototypes.lamp")
-
-local new_oil_lamp_item =util.table.deepcopy(data.raw.item["small-lamp"])
-new_oil_lamp_item.name = "oil-lamp"
-new_oil_lamp_item.order = "a[light]-b[oil-lamp]"
-new_oil_lamp_item.place_result = "oil-lamp"
-
-data:extend{
-	create_oil_lamp(),
-	new_oil_lamp_item,
-	{
-		enabled = false,
-	    type = "recipe",
-	    name = "oil-lamp",
-	    normal =
-	    {
-	      energy_required = 1.5,
-	      ingredients =
-	      {
-	        {"iron-stick", 4},
-	        {"iron-plate", 2}
-	      },
-	      result = "oil-lamp"
-	    },
-	    expensive =
-	    {
-	      energy_required = 3,
-	      ingredients =
-	      {
-	        {"iron-stick", 8},
-	        {"iron-plate", 4}
-	      },
-	      result = "oil-lamp"
-	    }
-	},
-	{
-		enabled = true,
-	    type = "recipe",
-	    name = "small-lamp",
-	    normal =
-	    {
-	      energy_required = 0.5,
-	      ingredients =
-	      {
-	        {"stone", 3}
-	      },
-	      result = "small-lamp"
-	    },
-	    expensive =
-	    {
-	      energy_required = 0.5,
-	      ingredients =
-	      {
-	        {"stone", 4}
-	      },
-	      result = "small-lamp"
-	    }
-	}
-}
-
---data.raw.lamp["small-lamp"] = nil
-data.raw.item["small-lamp"].place_result = "fire-site"
-data.raw.lamp["small-lamp"].order = data.raw.item["small-lamp"].order
-data:extend{ create_lamp() }
+require ("prototypes.loader")
 
 

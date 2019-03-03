@@ -3,8 +3,9 @@ local new_miner = util.table.deepcopy(data.raw["mining-drill"]["burner-mining-dr
 new_miner.mining_speed = 0.7 
 new_miner.module_specification =
     {
-      module_slots = 1
+      module_slots = 2
     }
+new_miner.allowed_effects = {"consumption", "speed", "productivity", "pollution"}
 new_miner.resource_searching_radius = 1.99
 new_miner.energy_usage = "600kW"
 new_miner.name = "burner-mining-drill-2"
@@ -47,7 +48,6 @@ data:extend{
 		name = "dirty-uranium-ore",
 		icon = "__CoalPowered__/graphics/icons/dirty-uranium-ore.png",
 		icon_size = 32,
-		flags = {"goes-to-main-inventory"},
 		subgroup = "raw-resource",
 		order = "g[dirty-uranium-ore]",
 	    stack_size = 50
