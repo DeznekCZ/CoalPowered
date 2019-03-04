@@ -145,15 +145,25 @@ data.raw["pump"]["pump"].energy_source = new_burner{
 	extra = {usage_priority = "secondary-input"}
 }
 --]]--
-----[[
-data.raw["roboport"]["roboport"].energy_source.usage_priority = "solar"
---]]--
+
 data.raw["radar"]["radar"].energy_source = new_burner{
 	emissions = 0.05,
     extra = {usage_priority = "secondary-input"}
 }
 
 data.raw["rocket-silo"]["rocket-silo"].energy_source = new_burner({emissions = 0.1})
+with (data.raw.recipe["rocket-silo"], 
+  {
+    ingredients =
+    {
+      {"steel-plate", 1000},
+      {"concrete", 1000},
+      {"pipe", 100},
+      {"advanced-gear-box", 200},
+      {"engine-unit", 200}
+    },
+  }
+)
 
 data.raw["mining-drill"]["pumpjack"].energy_source = new_burner{emissions = 0.15}
 
@@ -173,9 +183,16 @@ data:extend{
 }
 
 
+require ("prototypes.logistics")
+require ("prototypes.clockwork")
 require ("prototypes.gearbox")
 require ("prototypes.module")
 require ("prototypes.lamp")
 require ("prototypes.loader")
+
+require ("prototypes.coal_armor.equipment")
+require ("prototypes.coal_armor.item")
+require ("prototypes.coal_armor.recipe")
+require ("prototypes.coal_armor.technology")
 
 
