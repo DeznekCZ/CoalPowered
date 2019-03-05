@@ -25,3 +25,9 @@ data:extend(
     order = "a-b-c"
     },
 })
+
+with (data.raw.technology["modular-armor"],
+  { 
+    prerequisites = {"heavy-armor", "plastics"},
+  }
+)

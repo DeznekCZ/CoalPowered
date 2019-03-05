@@ -190,6 +190,8 @@ require ("prototypes.module")
 require ("prototypes.lamp")
 require ("prototypes.loader")
 
+require ("prototypes.coal_armor.disable")
+require ("prototypes.coal_armor.mock")
 require ("prototypes.coal_armor.equipment")
 require ("prototypes.coal_armor.item")
 require ("prototypes.coal_armor.recipe")

@@ -25,8 +25,11 @@ data:extend(
           name = "smoke",
           deviation = { 0.1, 0.1 },
           frequency = 30,
-          position = { -0.2, 0.8 },
-          starting_vertical_speed = 0.04,
+          west_position = { -0.2, -1.2 },
+          south_position = { -0.2, -1.2 },
+          east_position = { -0.2, -1.2 },
+          north_position = { -0.2, -1.2 },
+          starting_vertical_speed = 0.03,
           starting_frame_deviation = 60
         }
       }
@@ -83,13 +86,14 @@ with (data.raw["active-defense-equipment"]["personal-laser-defense-equipment"],
     {
       type = "electric",
       usage_priority = "secondary-input",
-      buffer_capacity = "0J"
+      buffer_capacity = "1MJ",
+      input_flow_limit = "1W",
     },
     attack_parameters =
     {
       type = "projectile",
       ammo_category = "bullet",
-      cooldown = 12,
+      cooldown = 6,
       projectile_creation_distance = 1.39375,
       projectile_center = {0, -0.0875}, -- same as gun_turret_attack shift
       shell_particle =
@@ -106,19 +110,27 @@ with (data.raw["active-defense-equipment"]["personal-laser-defense-equipment"],
       ammo_type = 
       {
         category = "bullet",
-        energy_consumption = "0J",
-        action = 
+        energy_consumption = "1MJ",
+        action =
         {
           type = "direct",
-          action_delivery = 
+          action_delivery =
           {
             type = "instant",
-            target_effects = {
-              type = "damage",
-              damage =
+            source_effects =
+            {
+              type = "create-explosion",
+              entity_name = "explosion-gunshot"
+            },
+            target_effects =
+            {
               {
-                amount = 10,
-                type = "physical"
+                type = "create-entity",
+                entity_name = "explosion-hit"
+              },
+              {
+                type = "damage",
+                damage = { amount = 8, type = "physical"}
               }
             }
           }

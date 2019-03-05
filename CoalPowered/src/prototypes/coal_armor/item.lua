@@ -9,5 +9,5 @@ data:extend(
 		subgroup = "equipment",
 		order = "a[energy-source]-b[portable-generator-equipment]",
 		stack_size = 10
-  }
+  },
 })
