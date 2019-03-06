@@ -87,8 +87,8 @@ data:extend{
 	      energy_required = 2,
 	      ingredients =
 	      {
-	        {"iron-gear-wheel", 6},
-	        {"steel-furnace", 1},
+	        {"simple-gear-box", 6},
+	        {"stone-furnace", 1},
 	        {"iron-plate", 6}
 	      },
 	      result = "burner-mining-drill-2"
@@ -98,33 +98,11 @@ data:extend{
 	      energy_required = 4,
 	      ingredients =
 	      {
-	        {"iron-gear-wheel", 12},
-	        {"steel-furnace", 2},
+	        {"simple-gear-box", 12},
+	        {"stone-furnace", 1},
 	        {"iron-plate", 12}
 	      },
 	      result = "burner-mining-drill-2"
 	    }
 	},
-	{
-		enabled = false,
-	    type = "recipe",
-	    category = "smelting",
-	    name = "burner-mining-drill-2-upgrade",
-	    localised_name = {"recipe-name.burner-mining-drill-2-upgrade"},
-	    icon = new_miner.icon,
-	    icon_size = 32,
-	    order = "a[items]-a[burner-mining-drill-3]",
-	    normal =
-	    {
-	      energy_required = 10,
-	      ingredients = {{"burner-mining-drill", 4}},
-	      result = "burner-mining-drill-2"
-	    },
-	    expensive =
-	    {
-	      energy_required = 20,
-	      ingredients = {{"burner-mining-drill", 8}},
-	      result = "burner-mining-drill-2"
-	    }
-	}
 }

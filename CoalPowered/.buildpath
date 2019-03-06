@@ -2,6 +2,7 @@
 <buildpath>
 	<buildpathentry kind="con" path="org.eclipse.ldt.ExecutionEnvironmentContainer/lua/5.1"/>
 	<buildpathentry kind="src" path="src"/>
-	<buildpathentry kind="src" path="factorio_base"/>
 	<buildpathentry kind="src" path="graphics"/>
+	<buildpathentry kind="src" path="factorio_base"/>
+	<buildpathentry kind="src" path="factorio_core"/>
 </buildpath>

@@ -3,6 +3,17 @@
 
 --[[ Technology ]]
 
+local technology = data.raw.technology
+
+with (technology["modules"], 
+  {
+    prerequisites =
+    {
+      "gearing-2"
+    }
+  }
+)
+
 --[[ Recipes ]]
 
 local recipe = data.raw.recipe
@@ -21,6 +32,14 @@ for _,module in pairs(modules) do
       }
     }
   )
+  with (technology[module .. "-2"], 
+    {
+      prerequisites =
+      {
+        module, "chemical-science-pack"
+      }
+    }
+  )
   with (recipe[module .. "-2"], 
     {
       category = "crafting-with-fluid",
@@ -28,7 +47,15 @@ for _,module in pairs(modules) do
       {
         {module, 4},
         {"steel-plate", 1},
-        {type="fluid", name="lubricant", amount=10}
+        {type="fluid", name="lubricant", amount=5}
+      }
+    }
+  )
+  with (technology[module .. "-3"], 
+    {
+      prerequisites =
+      {
+        module .. "-2", "production-science-pack"
       }
     }
   )
@@ -38,7 +65,7 @@ for _,module in pairs(modules) do
       ingredients =
       {
         {module .. "-2", 4},
-        {type="fluid", name="lubricant", amount=10}
+        {type="fluid", name="lubricant", amount=5}
       }
     }
   )

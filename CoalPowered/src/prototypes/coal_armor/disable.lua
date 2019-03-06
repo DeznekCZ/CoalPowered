@@ -1,4 +1,3 @@
-
 local to_remove = {
   ["solar-panel-equipment"] = "solar-panel-equipment",
   ["fusion-reactor-equipment"] = "generator-equipment",
@@ -10,6 +9,7 @@ local to_remove = {
   ["battery-equipment-2"] = "battery-equipment", -- TECH
   ["battery-mk2-equipment"] = "battery-equipment", -- ITEMS
   ["discharge-defense-remote"] = "capsule",
+  ["personal-laser-defense-equipment"] = "active-defense-equipment",
 }
 
 for name, type in pairs(to_remove) do
@@ -30,12 +30,6 @@ with (data.raw.technology["night-vision-equipment"],
 with (data.raw.technology["belt-immunity-equipment"],
   {
     prerequisites = {"portable-generator-equipment"}
-  }
-)
-
-with (data.raw.technology["personal-laser-defense-equipment"],
-  {
-    prerequisites = { "construction-robotics", "portable-generator-equipment", "chemical-science-pack" }
   }
 )
 

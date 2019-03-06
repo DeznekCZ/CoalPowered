@@ -165,6 +165,9 @@ with (data.raw.recipe["rocket-silo"],
   }
 )
 
+data.raw["arithmetic-combinator"]["arithmetic-combinator"].energy_source.type = "void"
+data.raw["decider-combinator"]["decider-combinator"].energy_source.type = "void"
+
 data.raw["mining-drill"]["pumpjack"].energy_source = new_burner{emissions = 0.15}
 
 require ("prototypes.mining")

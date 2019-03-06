@@ -33,18 +33,6 @@ with (data.raw.technology["basic-logistics"],
 
 --[[ Technology ]]
 
-with (data.raw.technology["logistics-2"], 
-  { 
-    prerequisites = {"logistics", "logistic-science-pack", "gearing"},
-  }
-)
-
-with (data.raw.technology["logistics-3"], 
-  {
-    prerequisites = {"production-science-pack", "lubricant", "gearing-2"},
-  }
-)
-
 data:extend{
   {
     type = "technology",

@@ -35,5 +35,10 @@
 			<type>2</type>
 			<location>C:/Program Files (x86)/Steam/steamapps/common/Factorio/data/base</location>
 		</link>
+		<link>
+			<name>factorio_core</name>
+			<type>2</type>
+			<location>C:/Program Files (x86)/Steam/steamapps/common/Factorio/data/core</location>
+		</link>
 	</linkedResources>
 </projectDescription>
