@@ -86,9 +86,8 @@ with (data.raw["roboport"]["roboport"].energy_source,
   },
 })
 
-with (data.raw.item["roboport"], 
-{}, { "place_result" })
-data.raw["roboport"]["roboport"].order = data.raw.item["roboport"].order
+--with (data.raw.item["roboport"], {}, { "place_result" })
+--data.raw["roboport"]["roboport"].order = data.raw.item["roboport"].order
 
 with (data.raw.recipe["roboport"], 
 {

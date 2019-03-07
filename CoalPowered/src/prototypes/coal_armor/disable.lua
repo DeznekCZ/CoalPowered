@@ -9,7 +9,10 @@ local to_remove = {
   ["battery-equipment-2"] = "battery-equipment", -- TECH
   ["battery-mk2-equipment"] = "battery-equipment", -- ITEMS
   ["discharge-defense-remote"] = "capsule",
+  ["distractor-capsule"] = "capsule",
+  ["destroyer-capsule"] = "capsule",
   ["personal-laser-defense-equipment"] = "active-defense-equipment",
+  ["night-vision-equipment"] = "night-vision-equipment",
 }
 
 for name, type in pairs(to_remove) do
@@ -21,15 +24,19 @@ end
 
 -- data.raw.technology["solar-panel-equipment"].enabled = false
 
-with (data.raw.technology["night-vision-equipment"],
+with (data.raw.technology["belt-immunity-equipment"],
   {
     prerequisites = {"portable-generator-equipment"}
   }
 )
 
-with (data.raw.technology["belt-immunity-equipment"],
+with (data.raw.recipe["belt-immunity-equipment"],
   {
-    prerequisites = {"portable-generator-equipment"}
+    ingredients = 
+    { 
+      {"iron-plate", 2},
+      {"advanced-gear-box", 2}
+    }
   }
 )
 

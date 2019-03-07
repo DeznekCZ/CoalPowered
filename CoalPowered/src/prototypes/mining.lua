@@ -82,27 +82,13 @@ data:extend{
 		enabled = false,
 	    type = "recipe",
 	    name = "burner-mining-drill-2",
-	    normal =
-	    {
-	      energy_required = 2,
-	      ingredients =
-	      {
-	        {"simple-gear-box", 6},
-	        {"stone-furnace", 1},
-	        {"iron-plate", 6}
-	      },
-	      result = "burner-mining-drill-2"
-	    },
-	    expensive =
-	    {
-	      energy_required = 4,
-	      ingredients =
-	      {
-	        {"simple-gear-box", 12},
-	        {"stone-furnace", 1},
-	        {"iron-plate", 12}
-	      },
-	      result = "burner-mining-drill-2"
-	    }
+      energy_required = 2,
+      ingredients =
+      {
+        {"simple-gear-box", 6},
+        {"steel-plate", 2},
+        {"burner-mining-drill", 1},
+      },
+      result = "burner-mining-drill-2"
 	},
 }

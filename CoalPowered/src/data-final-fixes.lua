@@ -1,5 +1,6 @@
 
 function with(data, changes, clear)
+  if not data then return end
   if not clear then clear = {"_no_fields_"} end
   for k,v in pairs(changes) do
     data[k] = v
@@ -7,6 +8,19 @@ function with(data, changes, clear)
   for _,v in pairs(clear) do
     data[v] = nil
   end
+end
+
+recipe_data = data.raw.recipe
+function with_recipe(name, changes, clear)
+  with(recipe_data[name], changes, clear)
+end
+
+function with_recipe_ingredients(name, ingredients)
+  with(recipe_data[name], 
+    {
+      ingredients = ingredients
+    }
+  )
 end
 
 require("prototypes.tech")
@@ -75,52 +89,6 @@ recipes["assembling-machine-3"].ingredients = {
 -- Chemical plant
 assemblers["chemical-plant"].energy_source = new_burner{emissions = 0.04}
 
---[[ INSERTERS ]]--
-
-local function multiple_single_consuption(origin, value)
-  local appendix = origin:gsub("[^%D]+", "")
-  local number = origin:gsub("%D+", "")
-  return (tonumber(number) * value) .. appendix
-end
-
-local function increase_consuption(inserter)
-	data.raw.inserter[inserter].energy_per_movement
-	 = multiple_single_consuption( data.raw.inserter[inserter].energy_per_movement, 20 )
-	data.raw.inserter[inserter].energy_per_rotation
-	 = multiple_single_consuption( data.raw.inserter[inserter].energy_per_rotation, 20 )
-end
-
-local function replace_energy(inserter)
-	data.raw.inserter[inserter].energy_source = {
-      type = "burner",
-      fuel_category = "chemical",
-      effectivity = 1,
-      fuel_inventory_size = 1,
-      smoke =
-      {
-        {
-          name = "smoke",
-          deviation = {0.1, 0.1},
-          frequency = 9
-        }
-      }
-    }
-end
-
-increase_consuption("inserter")
-increase_consuption("long-handed-inserter")
-increase_consuption("fast-inserter")
-increase_consuption("filter-inserter")
-increase_consuption("stack-inserter")
-increase_consuption("stack-filter-inserter")
-
-replace_energy("inserter")
-replace_energy("long-handed-inserter")
-replace_energy("fast-inserter")
-replace_energy("filter-inserter")
-replace_energy("stack-inserter")
-replace_energy("stack-filter-inserter")
-
 --[[ OTHER ]]--
 
 data.raw.lab.lab.energy_source = new_burner{emissions = 0.04}
@@ -133,12 +101,6 @@ data.raw.recipe.lab.ingredients = {
 
 data.raw.recipe["small-electric-pole"] = nil
 data.raw.recipe["electric-mining-drill"] = nil
-data.raw.recipe["production-science-pack"].ingredients =
-    {
-      {"steel-furnace", 1},
-      {"productivity-module", 1},
-      {"rail", 30},
-    }
 ----[[
 data.raw["pump"]["pump"].energy_source = new_burner{
 	emissions = 0.01,
@@ -185,7 +147,7 @@ data:extend{
 	}
 }
 
-
+require ("prototypes.inserter")
 require ("prototypes.logistics")
 require ("prototypes.clockwork")
 require ("prototypes.gearbox")

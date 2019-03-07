@@ -46,7 +46,7 @@ with (data.raw.recipe["flying-robot-frame"],
       {"electric-engine-unit", 1},
       {"advanced-gear-box", 4},
       {"plastic-bar", 4},
-      {"steel-plate", 1},
+      {"gyroscope", 1},
     },
   }
 )

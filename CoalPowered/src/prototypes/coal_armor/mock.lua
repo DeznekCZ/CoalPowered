@@ -83,6 +83,48 @@ data:extend{
     energy_per_shield = "20kJ",
     categories = {"mock"}
   },
+  {
+    type = "night-vision-equipment",
+    name = "mock-night-vision-equipment",
+    sprite =
+    {
+      filename = "__base__/graphics/equipment/night-vision-equipment.png",
+      width = 64,
+      height = 64,
+      priority = "medium"
+    },
+    shape =
+    {
+      width = 2,
+      height = 2,
+      type = "full"
+    },
+    energy_source =
+    {
+      type = "electric",
+      buffer_capacity = "120kJ",
+      input_flow_limit = "240kW",
+      usage_priority = "primary-input"
+    },
+    energy_input = "10kW",
+    tint = {r = 0.1, g = 0.5, b = 0.2, a = 0},
+    desaturation_params =
+    {
+      smoothstep_min = 0.1,
+      smoothstep_max = 0.7,
+      minimum = 0.3,
+      maximum = 1.0
+    },
+    light_params =
+    {
+      smoothstep_min = 0.1,
+      smoothstep_max = 0.7,
+      minimum = 0.666,
+      maximum = 1.0
+    },
+    categories = {"mock"},
+    darkness_to_turn_on = 0.5
+  },
 }
 
 --[[ Items ]]
@@ -116,6 +158,16 @@ data:extend{
     placed_as_equipment_result = "mock-energy-shield-equipment",
     subgroup = "equipment",
     order = "b[shield]-a[energy-shield-equipment]",
+    stack_size = 20
+  },
+  {
+    type = "item",
+    name = "mock-night-vision-equipment",
+    icon = "__base__/graphics/icons/night-vision-equipment.png",
+    icon_size = 32,
+    placed_as_equipment_result = "mock-night-vision-equipment",
+    subgroup = "equipment",
+    order = "f[night-vision]-a[night-vision-equipment]",
     stack_size = 20
   },
 }

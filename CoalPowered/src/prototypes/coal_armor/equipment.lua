@@ -153,12 +153,24 @@ with (data.raw.recipe["exoskeleton-equipment"],
   }
 )
 
-with (data.raw.recipe["personal-roboport-equipment"], 
+with_recipe ("personal-roboport-equipment", 
   {
     category = "advanced-crafting",
     ingredients =
     {
       {"plastic-bar", 20},
+      {"advanced-gear-box", 10}
+    },
+  }
+)
+
+with_recipe ("personal-roboport-mk2-equipment", 
+  {
+    category = "advanced-crafting",
+    ingredients =
+    {
+      {"personal-roboport-equipment", 5},
+      {"low-density-structure", 20},
       {"advanced-gear-box", 10}
     },
   }

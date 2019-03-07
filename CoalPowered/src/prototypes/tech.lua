@@ -86,12 +86,12 @@ data.raw.recipe["chemical-science-pack"].ingredients =
      {"plastic-bar", 5},
      {"engine-unit", 2}
     }
+    
 data.raw.recipe["production-science-pack"].ingredients =
     {
-     {"electric-engine-unit", 1},
-     {"steel-furnace", 1},
-     {"steel-plate", 4},
-     {"advanced-circuit", 5}
+      {"steel-furnace", 1},
+      {"productivity-module", 1},
+      {"rail", 30},
     }
     
 data.raw.item["solar-panel"].place_result = nil
@@ -111,6 +111,7 @@ data.raw["dont-use-entity-in-energy-production-achievement"]["steam-all-the-way"
 
 local technology = data.raw.technology
 local item = data.raw.item
+local recipe = data.raw.recipe
 
 with (technology["logistics-2"], 
   { 
@@ -226,9 +227,84 @@ with (technology["atomic-bomb"],
   }
 )
 
+with (recipe["atomic-bomb"], 
+  {
+    ingredients =
+    {
+      { "explosives", 10 },
+      { "rocket-fuel", 1 },
+      { "uranium-235", 30 }
+    }
+  }
+)
+
+with (recipe["rocket-part"], 
+  {
+    ingredients =
+    {
+      { "low-density-structure", 10 },
+      { "rocket-fuel", 10 },
+      { "gyroscope", 10 }
+    }
+  }
+)
+
+with (technology["robotics"], 
+  {
+    prerequisites = { "electric-engine", "gyroscope" }
+  }
+)
+
+data:extend{
+  {
+    type = "item",
+    name = "gyroscope",
+    icon = "__CoalPowered__/graphics/icons/gyroscope.png",
+    icon_size = 32,
+    subgroup = "intermediate-product",
+    order = "h[gyroscope]",
+    stack_size = 10
+  },
+  {
+    type = "recipe",
+    name = "gyroscope",
+    enabled = false,
+    ingredients =
+    {
+      {"steel-plate", 5},
+      {"iron-stick", 2}
+    },
+    result = "gyroscope"
+  },
+  {
+    type = "technology",
+    name = "gyroscope",
+    icon = "__CoalPowered__/graphics/technology/gyroscope.png",
+    icon_size = 224,
+    effects =
+    {
+      {
+        type = "unlock-recipe",
+        recipe = "gyroscope"
+      }
+    },
+    unit =
+    {
+      count = 150,
+      ingredients =
+      {
+        {"automation-science-pack", 1},
+        {"logistic-science-pack", 1}
+      },
+      time = 15
+    },
+    prerequisites = {"steel-processing"},
+  }
+}
+
 with (technology["rocket-silo"], 
   {
-    prerequisites = { "concrete", "speed-module-3", "productivity-module-3", "rocket-fuel", "utility-science-pack" }
+    prerequisites = { "concrete", "speed-module-3", "productivity-module-3", "rocket-fuel", "utility-science-pack", "gyroscope" }
   }
 )
 
@@ -258,10 +334,232 @@ technology["advanced-electronics-2"] = nil
 
 technology["effect-transmission"] = nil -- TODO
 technology["rocket-control-unit"] = nil
-
 item["rocket-control-unit"] = nil
+recipe["rocket-control-unit"] = nil
+
+-- Remove recipe from limitation
+local function remove_limitation(item_name)
+  local limitation = data.raw.module["productivity-module"].limitation
+  for key, value in pairs(limitation) do
+    if string.find(value, item_name, 1, true) then
+      limitation[key] = nil
+      break
+    end
+  end 
+  
+  limitation = data.raw.module["productivity-module-2"].limitation
+  for key, value in pairs(limitation) do
+    if string.find(value, item_name, 1, true) then
+      limitation[key] = nil
+      break
+    end
+  end 
+  
+  limitation = data.raw.module["productivity-module-3"].limitation
+  for key, value in pairs(limitation) do
+    if string.find(value, item_name, 1, true) then
+      limitation[key] = nil
+      break
+    end
+  end 
+end
+
+remove_limitation("rocket-control-unit")
+remove_limitation("advanced-circuit")
+remove_limitation("processing-unit")
+
+with_recipe ("utility-science-pack", 
+  {
+    category = "crafting-with-fluid",
+    ingredients = {
+       { "flying-robot-frame", 1 },
+       { "low-density-structure", 3 },
+       { name = "sulfuric-acid", amount = 30, type = "fluid" },
+    }
+  }
+)
+
+item["advanced-circuit"] = nil
+recipe["advanced-circuit"] = nil
 
 
+with (data.raw.recipe["tank"].normal,
+  {
+    ingredients = 
+    { 
+      {"engine-unit", 32},
+      {"advanced-gear-box", 6},
+      {"steel-plate", 50}
+    }
+  }
+)
 
+with (data.raw.recipe["tank"].expensive,
+  {
+    ingredients = 
+    { 
+      {"engine-unit", 64},
+      {"advanced-gear-box", 12},
+      {"steel-plate", 100}
+    }
+  }
+)
 
+with (data.raw.recipe["artillery-turret"],
+  {
+    ingredients = 
+    { 
+      {"concrete", 60},
+      {"advanced-gear-box", 4},
+      {"steel-plate", 60}
+    }
+  }
+)
 
+with (data.raw.recipe["artillery-wagon"],
+  {
+    ingredients = 
+    { 
+      {"engine-unit", 64},
+      {"advanced-gear-box", 4},
+      {"pipe", 16},
+      {"steel-plate", 40}
+    }
+  }
+)
+
+recipe["railgun"] = nil
+
+item["processing-unit"] = nil
+recipe["processing-unit"] = nil
+
+with_recipe_ingredients ("artillery-targeting-remote", 
+  {
+    { "radar", 1 }
+  }
+)
+
+item["substation"] = nil
+recipe["substation"] = nil
+data.raw["electric-pole"]["substation"] = nil
+item["electric-furnace"] = nil
+recipe["electric-furnace"] = nil
+data.raw.furnace["electric-furnace"] = nil
+item["beacon"] = nil
+recipe["beacon"] = nil
+data.raw.beacon.beacon = nil
+data:extend
+{
+  {
+    type = "beacon",
+    name = "mock-beacon",
+    icon = "__base__/graphics/icons/beacon.png",
+    icon_size = 32,
+    flags = {"placeable-player", "player-creation"},
+    minable = {mining_time = 0.2, result = "wood"},
+    order = "a",
+    max_health = 200,
+    corpse = "big-remnants",
+    dying_explosion = "medium-explosion",
+    collision_box = {{-1.2, -1.2}, {1.2, 1.2}},
+    selection_box = {{-1.5, -1.5}, {1.5, 1.5}},
+    drawing_box = {{-1.5, -2.2}, {1.5, 1.3}},
+    allowed_effects = {"consumption", "speed", "pollution"},
+    base_picture =
+    {
+      filename = "__base__/graphics/entity/beacon/beacon-base.png",
+      width = 116,
+      height = 93,
+      shift = { 0.34375, 0.046875}
+    },
+    animation =
+    {
+      filename = "__base__/graphics/entity/beacon/beacon-antenna.png",
+      width = 54,
+      height = 50,
+      line_length = 8,
+      frame_count = 32,
+      shift = { -0.03125, -1.71875},
+      animation_speed = 0.5
+    },
+    animation_shadow =
+    {
+      filename = "__base__/graphics/entity/beacon/beacon-antenna-shadow.png",
+      width = 63,
+      height = 49,
+      line_length = 8,
+      frame_count = 32,
+      shift = { 3.140625, 0.484375},
+      animation_speed = 0.5
+    },
+    radius_visualisation_picture =
+    {
+      filename = "__base__/graphics/entity/beacon/beacon-radius-visualization.png",
+      priority = "extra-high-no-scale",
+      width = 10,
+      height = 10
+    },
+    supply_area_distance = 3,
+    energy_source =
+    {
+      type = "electric",
+      usage_priority = "secondary-input"
+    },
+    vehicle_impact_sound =  { filename = "__base__/sound/car-metal-impact.ogg", volume = 0.65 },
+    energy_usage = "480kW",
+    distribution_effectivity = 0.5,
+    module_specification =
+    {
+      module_slots = 2,
+      module_info_icon_shift = {0, 0.5},
+      module_info_multi_row_initial_height_modifier = -0.3
+    }
+  },
+}
+
+item["small-plane"] = nil
+recipe["small-plane"] = nil
+
+with_recipe_ingredients ("satellite", 
+  {
+    { "radar", 1 }
+  }
+)
+
+with_recipe_ingredients ("nuclear-reactor", 
+  {
+    {"concrete", 500},
+    {"steel-plate", 500},
+    {"copper-plate", 500}
+  }
+)
+
+with_recipe_ingredients ("centrifuge", 
+  {
+    {"concrete", 100},
+    {"steel-plate", 50},
+    {"advanced-gear-box", 20},
+    {"engine-unit", 50}
+  }
+)
+
+technology["advanced-material-processing-2"] = nil
+technology["production-science-pack"].prerequisites = {"productivity-module", "advanced-material-processing", "railway"}
+
+technology["combat-robotics"] = nil
+technology["combat-robotics-2"] = nil
+technology["combat-robotics-3"] = nil
+technology["follower-robot-count-1"] = nil
+technology["follower-robot-count-2"] = nil
+technology["follower-robot-count-3"] = nil
+technology["follower-robot-count-4"] = nil
+technology["follower-robot-count-5"] = nil
+technology["follower-robot-count-6"] = nil
+technology["follower-robot-count-7"] = nil
+
+data.raw["produce-per-hour-achievement"]["circuit-veteran-1"] = nil
+data.raw["produce-per-hour-achievement"]["circuit-veteran-2"] = nil
+data.raw["produce-per-hour-achievement"]["circuit-veteran-3"] = nil
+data.raw["produce-per-hour-achievement"]["computer-age-1"] = nil
+data.raw["produce-per-hour-achievement"]["computer-age-2"] = nil
+data.raw["produce-per-hour-achievement"]["computer-age-3"] = nil
