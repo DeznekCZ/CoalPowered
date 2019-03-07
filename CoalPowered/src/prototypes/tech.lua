@@ -31,10 +31,12 @@ for tech_name, tech_data in pairs(data.raw.technology) do
   end
 end
 
+--[[
 table.insert(data.raw.technology["oil-processing"].effects,{
         type = "unlock-recipe",
         recipe = "oil-lamp"
       })
+--]]
 
 data.raw.technology["nuclear-power"].effects = {
       {

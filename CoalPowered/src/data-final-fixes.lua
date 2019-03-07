@@ -99,7 +99,6 @@ data.raw.recipe.lab.ingredients = {
 	{"stone-furnace", 1}
 }
 
-data.raw.recipe["small-electric-pole"] = nil
 data.raw.recipe["electric-mining-drill"] = nil
 ----[[
 data.raw["pump"]["pump"].energy_source = new_burner{
@@ -135,17 +134,6 @@ data.raw["mining-drill"]["pumpjack"].energy_source = new_burner{emissions = 0.15
 require ("prototypes.mining")
 
 data.raw["assembling-machine"]["oil-refinery"].energy_source = new_burner{emissions = 0.15}
-
-data:extend{
-	{
-		type = "fuel-category",
-		name = "lamp-oil"
-	},
-	{
-		type = "fuel-category",
-		name = "vehicle-fuel"
-	}
-}
 
 require ("prototypes.inserter")
 require ("prototypes.logistics")
