@@ -1,10 +1,4 @@
 
-local function multiple_single_consuption(origin, value)
-  local appendix = origin:gsub("[^%D]+", "")
-  local number = origin:gsub("%D+", "")
-  return (tonumber(number) * value) .. appendix
-end
-
 local function increase_consuption(inserter)
   data.raw.inserter[inserter].energy_per_movement
    = multiple_single_consuption( data.raw.inserter[inserter].energy_per_movement, 20 )
@@ -43,16 +37,23 @@ replace_energy("filter-inserter")
 replace_energy("stack-inserter")
 replace_energy("stack-filter-inserter")
 
-with_recipe_ingredients ("inserter", 
+with_recipe_ingredients ("burner-inserter", 
   {
      { "iron-gear-wheel", 2 },
-     { "iron-plate", 1 },
+     { "iron-plate", 3 },
+  }
+)
+
+with_recipe_ingredients ("inserter", 
+  {
+     { "iron-gear-wheel", 3 },
+     { "iron-plate", 3 },
   }
 )
 with_recipe_ingredients ("long-handed-inserter", 
   {
-     { "iron-gear-wheel", 2 },
-     { "iron-plate", 2 },
+     { "iron-gear-wheel", 3 },
+     { "iron-plate", 5 },
   }
 )
 with_recipe_ingredients ("fast-inserter", 
@@ -64,17 +65,20 @@ with_recipe_ingredients ("fast-inserter",
 with_recipe_ingredients ("filter-inserter", 
   {
      { "fast-inserter", 1 },
+     { "iron-plate", 1 },
   }
 )
 with_recipe_ingredients ("stack-inserter", 
   {
      { "fast-inserter", 1 },
      { "advanced-gear-box", 1 },
+     { "iron-plate", 2 },
   }
 )
 with_recipe_ingredients ("stack-filter-inserter", 
   {
      { "stack-inserter", 1 },
+     { "iron-plate", 1 },
   }
 )
 

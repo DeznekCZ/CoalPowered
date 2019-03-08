@@ -37,21 +37,6 @@ table.insert(data.raw.technology["oil-processing"].effects,{
         recipe = "oil-lamp"
       })
 --]]
-
-data.raw.technology["nuclear-power"].effects = {
-      {
-        type = "unlock-recipe",
-        recipe = "centrifuge"
-      },
-      {
-        type = "unlock-recipe",
-        recipe = "uranium-processing"
-      },
-      {
-        type = "unlock-recipe",
-        recipe = "clear-uranium"
-      }
-    }
     
 data.raw.technology["coal-liquefaction"].effects = {
       {
@@ -565,3 +550,11 @@ data.raw["produce-per-hour-achievement"]["circuit-veteran-3"] = nil
 data.raw["produce-per-hour-achievement"]["computer-age-1"] = nil
 data.raw["produce-per-hour-achievement"]["computer-age-2"] = nil
 data.raw["produce-per-hour-achievement"]["computer-age-3"] = nil
+
+with_recipe_ingredients("repair-pack",
+  {
+    {"iron-gear-wheel", 2},
+    {"iron-plate", 2},
+    {"copper-cable", 2},
+  }
+)

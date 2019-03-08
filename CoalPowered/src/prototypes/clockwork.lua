@@ -14,16 +14,16 @@ with (data.raw.technology["electric-engine"],
 data:extend{
   {
     type = "recipe",
-    name = "copper-gear-wheel",
+    name = "copper-gear-set",
     normal =
     {
       ingredients = {{"copper-plate", 2}},
-      result = "copper-gear-wheel"
+      result = "copper-gear-set"
     },
     expensive =
     {
       ingredients = {{"copper-plate", 4}},
-      result = "copper-gear-wheel"
+      result = "copper-gear-set"
     }
   },
 }
@@ -33,7 +33,7 @@ with (data.raw.recipe["electric-engine-unit"],
     ingredients =
     {
       {"copper-cable", 20},
-      {"copper-gear-wheel", 5},
+      {"copper-gear-set", 5},
       {type="fluid", name= "lubricant", amount = 15},
     },
   }
@@ -80,15 +80,14 @@ with (data.raw.item["electric-engine-unit"],
     -- TODO new icon for engine unit  
   }
 )
-
 data:extend{
   {
     type = "item",
-    name = "copper-gear-wheel",
-    icon = "__CoalPowered__/graphics/icons/copper-gear-wheel.png",
+    name = "copper-gear-set",
+    icon = "__CoalPowered__/graphics/icons/copper-gear-set.png",
     icon_size = 32,
     subgroup = "intermediate-product",
     order = "c[copper-gear-wheel]",
-    stack_size = 50
+    stack_size = 100
   },
 }

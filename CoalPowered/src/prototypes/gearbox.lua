@@ -11,26 +11,6 @@ with (data.raw.recipe["locomotive"],
   }
 )
 
-with (data.raw.technology["basic-logistics"],
-  {
-    effects =
-    {
-      {
-        type = "unlock-recipe",
-        recipe = "transport-belt"
-      },
-      {
-        type = "unlock-recipe",
-        recipe = "loader"
-      },
-      {
-        type = "unlock-recipe",
-        recipe = "splitter"
-      },
-    },
-  }
-)
-
 --[[ Technology ]]
 
 data:extend{
@@ -73,8 +53,6 @@ data:extend{
       {
         {"automation-science-pack", 1},
         {"logistic-science-pack", 1},
-        {"chemical-science-pack", 1},
-        {"production-science-pack", 1}
       },
       time = 15
     },
@@ -96,9 +74,9 @@ data:extend{
       energy_required = 2,
       ingredients =
       {
-        {"iron-gear-wheel", 10},
+        {"iron-gear-wheel", 5},
         {"iron-plate", 1},
-        {"iron-stick", 5},
+        {"iron-stick", 4},
       },
       result = "simple-gear-box"
     },
@@ -108,9 +86,9 @@ data:extend{
       energy_required = 3,
       ingredients =
       {
-        {"iron-gear-wheel", 20},
+        {"iron-gear-wheel", 10},
+        {"iron-stick", 4},
         {"iron-plate", 1},
-        {"iron-stick", 5},
       },
       result = "simple-gear-box"
     }
@@ -125,8 +103,8 @@ data:extend{
       energy_required = 6,
       ingredients =
       {
-        {"iron-gear-wheel", 10},
-        {"iron-stick", 5},
+        {"iron-gear-wheel", 5},
+        {"iron-stick", 4},
         {"steel-plate", 1},
         {type="fluid", name="lubricant", amount=20}
       },
@@ -138,8 +116,8 @@ data:extend{
       energy_required = 8,
       ingredients =
       {
-        {"iron-gear-wheel", 20},
-        {"iron-stick", 5},
+        {"iron-gear-wheel", 10},
+        {"iron-stick", 4},
         {"steel-plate", 1},
         {type="fluid", name="lubricant", amount=40}
       },
@@ -150,6 +128,13 @@ data:extend{
 
 --[[ Items ]]
 
+with(data.raw.item["iron-gear-wheel"],
+  {
+    localised_name = { "item-name.iron-gear-set" },
+    icon = "__CoalPowered__/graphics/icons/iron-gear-set.png",
+  }
+)
+data.raw.item["empty-barrel"].order = "d-b[empty-barrel]"
 data:extend{
   {
     type = "item",
@@ -157,7 +142,7 @@ data:extend{
     icon = "__CoalPowered__/graphics/icons/gearing.png",
     icon_size = 32,
     subgroup = "intermediate-product",
-    order = "c[iron-gear-wheel]-a",
+    order = "d-aa",
     stack_size = 50
   },
   {
@@ -166,7 +151,7 @@ data:extend{
     icon = "__CoalPowered__/graphics/icons/gearing-2.png",
     icon_size = 32,
     subgroup = "intermediate-product",
-    order = "c[iron-gear-wheel]-b",
+    order = "d-ab",
     stack_size = 50
   },
 }
