@@ -29,7 +29,7 @@ data:extend(
     name = "personal-turret-equipment",
     icon = "__CoalPowered__/graphics/technology/personal-turret-equipment.png",
     icon_size = 128,
-    prerequisites = { "modular-armor", "turrets" },
+    prerequisites = { "modular-armor", "turrets", "military-science-pack" },
     effects = 
     {
       {
@@ -53,12 +53,12 @@ data:extend(
 
 with (data.raw.technology["modular-armor"],
   { 
-    prerequisites = {"heavy-armor", "plastics"},
+    prerequisites = {"heavy-armor", "gearing", "logistic-science-pack"},
   }
 )
 
 with (data.raw.technology["power-armor"],
   { 
-    prerequisites = {"modular-armor", "portable-generator-equipment"},
+    prerequisites = {"modular-armor", "portable-generator-equipment", "chemical-science-pack"},
   }
 )

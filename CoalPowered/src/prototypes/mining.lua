@@ -44,7 +44,7 @@ u_res.minable =
     }
 data:extend{
 	{
-	    type = "item",
+	  type = "item",
 		name = "dirty-uranium-ore",
 		icon = "__CoalPowered__/graphics/icons/dirty-uranium-ore.png",
 		icon_size = 32,
@@ -53,27 +53,42 @@ data:extend{
 	    stack_size = 50
 	},
 	{
-	    type = "recipe",
-	    name = "clear-uranium",
+	  type = "recipe",
+	  name = "clear-uranium",
 		icon = "__CoalPowered__/graphics/icons/clear-uranium.png",
 		icon_size = 32,
-	    category = "crafting-with-fluid",
-    	subgroup = "raw-material",
-	    energy_required = 1,
-	    order = "k[clearing-uranium]",
-	    ingredients =
-	    {
-	      {"dirty-uranium-ore", 1},
-	      {type="fluid", name= "sulfuric-acid", amount = 5}
-	    },
-	    results =
-	    {
-	      {name = "uranium-ore", amount = 1, probability = 0.15},
-	      {name = "stone", amount = 1, probability = 0.85}
-	    },
-	    enabled = false
+		enabled = false,
+    category = "crafting-with-fluid",
+  	subgroup = "raw-material",
+    energy_required = 1,
+    order = "k[clear-uranium]",
+    ingredients =
+    {
+      {"dirty-uranium-ore", 1},
+      {type="fluid", name= "sulfuric-acid", amount = 5}
+    },
+    results =
+    {
+      {name = "uranium-ore", amount = 1, probability = 0.15},
+      {name = "stone", amount = 1, probability = 0.85}
+    },
+    enabled = false
 	}
 }
+table.insert(data.raw.technology["uranium-processing"].effects, 
+  {
+    type = "unlock-recipe",
+    recipe = "clear-uranium"
+  }
+)
+with_remove(data.raw.technology["nuclear-power"].effects, 
+  function (item) 
+    return string.equals(item.type, "unlock-recipe") 
+       and string.equals(item.recipe, "steam-turbine")
+  end
+)
+data.raw.recipe["steam-generator"] = nil
+data.raw.recipe["steam-turbine"] = nil
 
 data:extend{
 	new_miner,
@@ -92,3 +107,13 @@ data:extend{
       result = "burner-mining-drill-2"
 	},
 }
+
+data.raw["mining-drill"]["pumpjack"].energy_source = new_burner{emissions = 0.15}
+with_recipe_ingredients("pumpjack",
+  {
+    {"engine-unit", 6},
+    {"simple-gear-box", 4},
+    {"steel-plate", 4},
+    {"pipe", 10}
+  }
+)

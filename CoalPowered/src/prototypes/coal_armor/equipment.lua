@@ -33,6 +33,7 @@ local function generate_turret(magazine, damage)
       type = "projectile",
       ammo_category = "bullet",
       cooldown = 6,
+      movement_slow_down_factor = 0.1,
       projectile_creation_distance = 1.39375,
       projectile_center = {0, -0.0875}, -- same as gun_turret_attack shift
       shell_particle =
