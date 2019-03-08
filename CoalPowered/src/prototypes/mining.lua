@@ -29,8 +29,12 @@ new_miner_item.icon = new_miner_item.icon:gsub("__base__","__CoalPowered__")
 
 local f_ani_s = function(animations,faces) for _,face in pairs(faces) do 
 	local layer = animations[face].layers[1] 
-	layer.filename = layer.filename:gsub("__base__","__CoalPowered__")
-	layer.hr_version.filename = layer.hr_version.filename:gsub("__base__","__CoalPowered__")
+	if string.find(layer.filename, "shadow", 1, true) then
+	  -- Do not replace shadow
+	else
+  	layer.filename = layer.filename:gsub("__base__","__CoalPowered__")
+  	layer.hr_version.filename = layer.hr_version.filename:gsub("__base__","__CoalPowered__")
+  end
 end end
 f_ani_s(new_miner.animations,{"north","south","east","west"})
 
