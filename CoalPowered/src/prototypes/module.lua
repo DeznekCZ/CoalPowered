@@ -129,6 +129,8 @@ table.insert(data.raw.technology["steel-processing"].effects,
     recipe = "steel-stick"  
   }
 )
+add_limitation("steel-gear-set")
+add_limitation("steel-stick")
 
 --[[ Items ]]
 

@@ -84,5 +84,59 @@ function new_burner(data)
   return burner_d
 end
 
+function remove_limitation(item_name)
+  local limitation = data.raw.module["productivity-module"].limitation
+  for key, value in pairs(limitation) do
+    if string.find(value, item_name, 1, true) then
+      limitation[key] = nil
+      break
+    end
+  end 
+  
+  limitation = data.raw.module["productivity-module-2"].limitation
+  for key, value in pairs(limitation) do
+    if string.find(value, item_name, 1, true) then
+      limitation[key] = nil
+      break
+    end
+  end 
+  
+  limitation = data.raw.module["productivity-module-3"].limitation
+  for key, value in pairs(limitation) do
+    if string.find(value, item_name, 1, true) then
+      limitation[key] = nil
+      break
+    end
+  end 
+end
+
+function add_limitation(item_name)
+  local key_found = false
+  local limitation = data.raw.module["productivity-module"].limitation
+  for key, value in pairs(limitation) do
+    if string.find(value, item_name, 1, true) then
+      key_found = true break
+    end
+  end
+  if not key_found then limitation[#limitation + 1] = item_name end
+  
+  key_found = false
+  limitation = data.raw.module["productivity-module-2"].limitation
+  for key, value in pairs(limitation) do
+    if string.find(value, item_name, 1, true) then
+      key_found = true break
+    end
+  end 
+  if not key_found then limitation[#limitation + 1] = item_name end
+  
+  key_found = false
+  limitation = data.raw.module["productivity-module-3"].limitation
+  for key, value in pairs(limitation) do
+    if string.find(value, item_name, 1, true) then
+      key_found = true break
+    end
+  end 
+  if not key_found then limitation[#limitation + 1] = item_name end
+end
 
 require ("prototypes.upgrade")

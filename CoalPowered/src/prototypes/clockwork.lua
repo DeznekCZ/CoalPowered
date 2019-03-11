@@ -27,6 +27,7 @@ data:extend{
     }
   },
 }
+add_limitation("copper-gear-set")
 
 with (data.raw.recipe["electric-engine-unit"], 
   {

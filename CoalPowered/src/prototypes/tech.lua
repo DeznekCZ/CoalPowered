@@ -325,31 +325,6 @@ item["rocket-control-unit"] = nil
 recipe["rocket-control-unit"] = nil
 
 -- Remove recipe from limitation
-local function remove_limitation(item_name)
-  local limitation = data.raw.module["productivity-module"].limitation
-  for key, value in pairs(limitation) do
-    if string.find(value, item_name, 1, true) then
-      limitation[key] = nil
-      break
-    end
-  end 
-  
-  limitation = data.raw.module["productivity-module-2"].limitation
-  for key, value in pairs(limitation) do
-    if string.find(value, item_name, 1, true) then
-      limitation[key] = nil
-      break
-    end
-  end 
-  
-  limitation = data.raw.module["productivity-module-3"].limitation
-  for key, value in pairs(limitation) do
-    if string.find(value, item_name, 1, true) then
-      limitation[key] = nil
-      break
-    end
-  end 
-end
 
 remove_limitation("rocket-control-unit")
 remove_limitation("advanced-circuit")
