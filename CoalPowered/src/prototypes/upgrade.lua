@@ -16,16 +16,49 @@ data:extend{
   {
     type = "recipe",
     name = "iron-plate-from-scrap",
+    enabled = false,
     category = "smelting",
     energy_required = 2.2,
     ingredients = {{"iron-scrap", 1}},
     result = "iron-plate"
   },
+  {
+    type = "technology",
+    name = "automation-4",
+    icon = "__base__/graphics/technology/automation.png",
+    icon_size = 128,
+    prerequisites = { "automation-3", "utility-science-pack" },
+    effects = 
+    {
+      {
+        type = "unlock-recipe",
+        recipe = "iron-plate-from-scrap"
+      },
+      {
+        type = "unlock-recipe",
+        recipe = "assembling-machine-4"
+      }
+    },
+    unit = {
+      count = 300,
+      ingredients = 
+      {
+        {"automation-science-pack", 1},
+        {"logistic-science-pack", 1},
+        {"chemical-science-pack", 1},
+        {"production-science-pack", 1},
+        {"utility-science-pack", 1},
+      },
+      time = 15
+    },
+    order = "a-b-c"
+  },
 }
 
-local recipe_info_defauls = 
+local recipe_info_defaults = 
 {
   name = "",
+  type = "upgrade",
   source = { name = "", amount = 1 },
   target = { name = "", amount = 1 },
   icon = "",
@@ -36,11 +69,13 @@ local recipe_info_defauls =
   order = "",
   scrap_iron = 0,
   scrap_steel = 0,
+  types = { upgrade = "upgrade", edit = "upgrade-edit", switch = "upgrade-switch", disassemble = "upgrade-disassemble" }
 }
 
 upgrade_info = 
 {
   name = "",
+  type = "upgrade",
   source = { name = "", amount = 1 },
   target = { name = "", amount = 1 },
   icon = "",
@@ -51,6 +86,7 @@ upgrade_info =
   order = "",
   scrap_iron = 0,
   scrap_steel = 0,
+  types = { upgrade = "upgrade", edit = "upgrade-edit", switch = "upgrade-switch", disassemble = "upgrade-disassemble" }
 }
 
 local function upgrade_localised(item_id)
@@ -70,37 +106,51 @@ local function upgrade_localised(item_id)
 end
 
 function upgrade_recipe(info_function)
-  upgrade_info = util.table.deepcopy(recipe_info_defauls)
+  upgrade_info = util.table.deepcopy(recipe_info_defaults)
   info_function()
   
   local recipe = {
     type = "recipe",
     category = "upgrade-crafting",
     icon_size = 32,
-    enabled = true, -- TODO
+    enabled = false
   }
   if string.len(upgrade_info.name) > 0 then
-    recipe.name = "upgrade-" .. upgrade_info.name
+    recipe.name = upgrade_info.type .. "-" .. upgrade_info.name
+    recipe.localised_name = 
+    { 
+      "recipe-name." .. upgrade_info.type, 
+      upgrade_localised(upgrade_info.source.name), 
+      upgrade_localised(upgrade_info.target.name) 
+    }
+  elseif string.find(upgrade_info.type, upgrade_info.types.disassemble, 1, true) then
+    recipe.name = upgrade_info.type .. "-" .. upgrade_info.source.name
+    recipe.localised_name = 
+    { 
+      "recipe-name." .. upgrade_info.type, 
+      upgrade_localised(upgrade_info.source.name)
+    }
   else
-    recipe.name = "upgrade-" .. upgrade_info.source.name .. "-to-" .. upgrade_info.target.name
+    recipe.name = upgrade_info.type .. "-" .. upgrade_info.source.name .. "-to-" .. upgrade_info.target.name
+    recipe.localised_name = 
+    { 
+      "recipe-name." .. upgrade_info.type, 
+      upgrade_localised(upgrade_info.source.name), 
+      upgrade_localised(upgrade_info.target.name) 
+    }
   end
   recipe.energy_required = upgrade_info.energy_required
-  
-  recipe.localised_name = 
-  { 
-    "recipe-name.upgrade", 
-    upgrade_localised(upgrade_info.source.name), 
-    upgrade_localised(upgrade_info.target.name) 
-  }
   
   recipe.ingredients = upgrade_info.ingredients
   table.insert( recipe.ingredients, 0, upgrade_info.source )
   
   recipe.results = upgrade_info.results
-  table.insert( recipe.results, 0, upgrade_info.target )
+  if not string.find(upgrade_info.type, upgrade_info.types.disassemble, 1, true) then 
+    table.insert( recipe.results, 0, upgrade_info.target ) 
+  end
   
-  if upgrade_info.iron_scrap > 0 then 
-    table.insert( recipe.results, { "iron-scrap", upgrade_info.iron_scrap } ) 
+  if upgrade_info.scrap_iron > 0 then 
+    table.insert( recipe.results, { "iron-scrap", upgrade_info.scrap_iron } ) 
   end
   
   if string.len(upgrade_info.icon) > 0 then
@@ -121,6 +171,7 @@ function upgrade_recipe(info_function)
     recipe.order = data.raw.item[upgrade_info.target.name].order
   end
   
+  table.insert(data.raw.technology["automation-4"].effects, { type = "unlock-recipe", recipe = recipe.name })
   data:extend{ 
     recipe
   }

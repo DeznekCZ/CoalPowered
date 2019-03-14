@@ -496,15 +496,6 @@ with_recipe_ingredients ("nuclear-reactor",
   }
 )
 
-with_recipe_ingredients ("centrifuge", 
-  {
-    {"concrete", 100},
-    {"steel-plate", 50},
-    {"advanced-gear-box", 20},
-    {"engine-unit", 50}
-  }
-)
-
 technology["advanced-material-processing-2"] = nil
 technology["production-science-pack"].prerequisites = {"productivity-module", "advanced-material-processing", "railway"}
 
@@ -531,5 +522,108 @@ with_recipe_ingredients("repair-pack",
     {"iron-gear-wheel", 2},
     {"iron-plate", 2},
     {"copper-cable", 2},
+  }
+)
+
+--[[ REPLACE electronic-circuit 
+data.raw.item["electronic-circuit"] = nil
+data.raw.recipe["electronic-circuit"] = nil
+
+--[[ KEEP 
+data.raw.recipe["small-lamp"] = nil
+data.raw.recipe["player-port"] = nil
+data.raw.recipe["train-stop"] = nil
+data.raw.recipe["rail-signal"] = nil
+data.raw.recipe["rail-chain-signal"] = nil
+data.raw.recipe["red-wire"] = nil
+data.raw.recipe["green-wire"] = nil
+data.raw.recipe["loader"] = nil
+data.raw.recipe["fast-loader"] = nil
+data.raw.recipe["express-loader"] = nil
+data.raw.recipe["arithmetic-combinator"] = nil
+data.raw.recipe["decider-combinator"] = nil
+data.raw.recipe["constant-combinator"] = nil
+data.raw.recipe["power-switch"] = nil
+data.raw.recipe["programmable-speaker"] = nil
+data.raw.recipe["electric-energy-interface"] = nil
+
+data.raw.technology["basic-electronics"].effects = {}
+data.raw.technology["basic-optics"].effects = {}
+data.raw.technology["improved-equipment"].effects = {}
+data.raw.technology["circuit-network"].effects = {}
+data.raw.technology["automated-rail-transportation"].effects = {}
+data.raw.technology["rail-signals"].effects = {}
+
+data.raw["produce-achievement"]["mass-production-1"] = nil
+data.raw["produce-achievement"]["mass-production-2"] = nil
+data.raw["produce-achievement"]["mass-production-3"] = nil
+
+remove_limitation("electronic-circuit")
+--]]
+
+--[[ REMOVE ]]
+data.raw.recipe["railgun-dart"] = nil
+data.raw.item["solar-panel"] = nil
+data.raw.recipe["solar-panel"] = nil
+data.raw["solar-panel"]["mock-solar-panel"] = data.raw["solar-panel"]["solar-panel"]
+data.raw["solar-panel"]["mock-solar-panel"].name = "mock-solar-panel"
+data.raw["solar-panel"]["mock-solar-panel"].minable.result = "wood"
+data.raw["solar-panel"]["mock-solar-panel"].order = "z-[mock]"
+data.raw["solar-panel"]["solar-panel"] = nil
+data.raw.item["laser-turret"] = nil
+data.raw.recipe["laser-turret"] = nil
+data.raw["electric-turret"]["mock-laser-turret"] = data.raw["electric-turret"]["laser-turret"]
+data.raw["electric-turret"]["mock-laser-turret"].name = "mock-laser-turret"
+data.raw["electric-turret"]["mock-laser-turret"].minable.result = "wood"
+data.raw["electric-turret"]["mock-laser-turret"].order = "z-[mock]"
+data.raw["electric-turret"]["laser-turret"] = nil
+data.raw["dont-build-entity-achievement"]["raining-bullets"] = nil
+
+--[[ REPLACE ]]
+with_recipe_ingredients("rocket",
+  {
+    {"explosives", 1},
+    {"iron-plate", 2}
+  }
+)
+with_recipe_ingredients("poison-capsule",
+  {
+    {"steel-plate", 3},
+    {"coal", 10}
+  }
+)
+with_recipe_ingredients("slowdown-capsule",
+  {
+    {"steel-plate", 3},
+    {"coal", 10}
+  }
+)
+with_recipe_ingredients("gate",
+  {
+    {"stone-wall", 1}, 
+    {"steel-plate", 2}, 
+    {"simple-gear-box", 2}
+  }
+)
+with_recipe_ingredients("rocket-launcher",
+  {
+    {"iron-plate", 5},
+    {"iron-gear-wheel", 5},
+  }
+)
+with_recipe_ingredients("oil-refinery",
+  {
+    {"steel-plate", 15},
+    {"simple-gear-box", 2},
+    {"stone-brick", 10},
+    {"engine-unit", 8},
+    {"pipe", 10}
+  }
+)
+
+--[[ Uranium-processing ]]
+with_recipe_ingredients("oil-refinery",
+  {
+    {"uranium-ore", 1}
   }
 )

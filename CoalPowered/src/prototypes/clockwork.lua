@@ -92,3 +92,35 @@ data:extend{
     stack_size = 100
   },
 }
+
+upgrade_recipe(function()
+  upgrade_info.name = "robot-logistic-to-constuction"
+  upgrade_info.type = upgrade_info.types.switch
+  upgrade_info.source.name = "logistic-robot"
+  upgrade_info.target.name = "construction-robot"
+  upgrade_info.energy_required = 2
+  upgrade_info.ingredients =
+  {
+    {"repair-pack", 5},
+  }
+  upgrade_info.results = 
+  {
+    {"fast-inserter", 1},
+  }
+end)
+
+upgrade_recipe(function()
+  upgrade_info.name = "robot-constuction-to-logistic"
+  upgrade_info.type = upgrade_info.types.switch
+  upgrade_info.source.name = "construction-robot"
+  upgrade_info.target.name = "logistic-robot"
+  upgrade_info.energy_required = 2
+  upgrade_info.ingredients =
+  {
+    {"fast-inserter", 1},
+  }
+  upgrade_info.results = 
+  {
+    {"repair-pack", 5},
+  }
+end)

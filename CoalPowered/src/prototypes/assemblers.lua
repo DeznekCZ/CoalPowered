@@ -49,7 +49,7 @@ assemblers["assembling-machine-3"].energy_usage
 
 -- Chemical plant
 assemblers["chemical-plant"].energy_source = new_burner{
-  effectivity = 0.5,
+  effectivity = 1,
   emissions = 0.04
 }
 with_recipe_ingredients("chemical-plant",
@@ -61,14 +61,30 @@ with_recipe_ingredients("chemical-plant",
   }
 )
 
+-- Centrifuge
+assemblers["centrifuge"].energy_source = new_burner{
+  effectivity = 1,
+  emissions = 0.04
+}
+with_recipe_ingredients ("centrifuge", 
+  {
+    {"concrete", 100},
+    {"steel-plate", 50},
+    {"advanced-gear-box", 20},
+    {"engine-unit", 50}
+  }
+)
+
 --[[ ASSEMBLER-4 ]] 
 
+assemblers["assembling-machine-3"].next_upgrade = "assembling-machine-4"
 local assembler_4 = util.table.deepcopy(assemblers["assembling-machine-3"])
 assembler_4.name = "assembling-machine-4"
 assembler_4.icon = "__CoalPowered__/graphics/icons/assembling-machine-4.png"
 assembler_4.crafting_speed = 2
 assembler_4.energy_source.effectivity = 1.5
 assembler_4.energy_source.emissions = 0.02
+assembler_4.minable.result = "assembling-machine-4"
 assembler_4.fluid_boxes =
 {
   {
@@ -122,7 +138,7 @@ data:extend{
     type = "recipe",
     category = "advanced-crafting",
     name = "assembling-machine-4",
-    enabled = true, -- TODO
+    enabled = false,
     ingredients =
     {
       {"engine-unit", 8},
@@ -138,7 +154,7 @@ upgrade_recipe(function()
   upgrade_info.name = "assembling-machine-3-to-4"
   upgrade_info.source.name = "assembling-machine-3"
   upgrade_info.target.name = "assembling-machine-4"
-  upgrade_info.energy_required = 10
+  upgrade_info.energy_required = 15
   upgrade_info.ingredients =
   {
     {"engine-unit", 8},
@@ -151,5 +167,5 @@ upgrade_recipe(function()
     {"stone-furnace", 2},
     {"simple-gear-box", 12},
   }
-  upgrade_info.iron_scrap = 16
+  upgrade_info.scrap_iron = 16
 end)

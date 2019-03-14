@@ -72,6 +72,7 @@ with (data.raw.recipe["rocket-silo"],
 
 data.raw["arithmetic-combinator"]["arithmetic-combinator"].energy_source.type = "void"
 data.raw["decider-combinator"]["decider-combinator"].energy_source.type = "void"
+data.raw["programmable-speaker"]["programmable-speaker"].energy_source.type = "void"
 
 require ("prototypes.mining")
 
