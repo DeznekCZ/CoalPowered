@@ -622,7 +622,7 @@ with_recipe_ingredients("oil-refinery",
 )
 
 --[[ Uranium-processing ]]
-with_recipe_ingredients("oil-refinery",
+with_recipe_ingredients("uranium-processing",
   {
     {"uranium-ore", 1}
   }
