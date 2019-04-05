@@ -525,10 +525,20 @@ with_recipe_ingredients("repair-pack",
   }
 )
 
+local mock_generator = data.raw.generator["steam-engine"]
+mock_generator.name = "mock-engine"
+mock_generator.minable.name = "wood"
+data.raw.generator["steam-engine"] = nil
+item["steam-engine"] = nil
+recipe["steam-engine"] = nil
+with_remove(technology["analyse-ship"].effects,function (effect)
+  return effect.recipe and string.find("steam-engine", effect.recipe, 1, true)
+end)
+
 --[[ REPLACE electronic-circuit 
 data.raw.item["electronic-circuit"] = nil
 data.raw.recipe["electronic-circuit"] = nil
-
+--]]
 --[[ KEEP 
 data.raw.recipe["small-lamp"] = nil
 data.raw.recipe["player-port"] = nil
@@ -627,3 +637,5 @@ with_recipe_ingredients("uranium-processing",
     {"uranium-ore", 1}
   }
 )
+
+--[[  ]]

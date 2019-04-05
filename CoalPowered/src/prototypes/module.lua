@@ -40,7 +40,7 @@ for _,module in pairs(modules) do
       expensive =
       {
         enabled = false,
-        energy_required = recipe[module].energy_required + 2,
+        energy_required = recipe[module].energy_required + 5,
         ingredients =
         {
           {"steel-gear-set", 10},
@@ -99,12 +99,16 @@ data:extend{
     {
       ingredients = {{"steel-plate", 2}},
       result = "steel-gear-set",
+      result_count = 5,
+      energy_required = 2.5,
       enabled = false,
     },
     expensive =
     {
       ingredients = {{"steel-plate", 4}},
       result = "steel-gear-set",
+      result_count = 5,
+      energy_required = 2.5,
       enabled = false,
     }
   },
@@ -113,6 +117,7 @@ data:extend{
     name = "steel-stick",
     ingredients = {{"steel-plate", 1}},
     result = "steel-stick",
+    energy_required = 1,
     result_count = 2,
     enabled = false,
   },
