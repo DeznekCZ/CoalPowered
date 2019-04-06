@@ -527,13 +527,18 @@ with_recipe_ingredients("repair-pack",
 
 local mock_generator = data.raw.generator["steam-engine"]
 mock_generator.name = "mock-engine"
-mock_generator.minable.name = "wood"
+mock_generator.minable.result = "wood"
+mock_generator.order = "a"
 data.raw.generator["steam-engine"] = nil
 item["steam-engine"] = nil
 recipe["steam-engine"] = nil
 with_remove(technology["analyse-ship"].effects,function (effect)
   return effect.recipe and string.find("steam-engine", effect.recipe, 1, true)
 end)
+
+data:extend{
+  mock_generator
+}
 
 --[[ REPLACE electronic-circuit 
 data.raw.item["electronic-circuit"] = nil
@@ -639,3 +644,16 @@ with_recipe_ingredients("uranium-processing",
 )
 
 --[[  ]]
+
+data.raw.generator["steam-turbine"] = nil
+data.raw.item["steam-turbine"] = nil
+data.raw.recipe["steam-turbine"] = nil
+
+data.raw["mining-drill"]["electric-mining-drill"] = nil
+data.raw.item["electric-mining-drill"] = nil
+data.raw.recipe["electric-mining-drill"] = nil
+
+data.raw["combat-robot"]["defender"] = nil
+data.raw.projectile["defender-capsule"] = nil
+data.raw.capsule["defender-capsule"] = nil
+data.raw.recipe["defender-capsule"] = nil

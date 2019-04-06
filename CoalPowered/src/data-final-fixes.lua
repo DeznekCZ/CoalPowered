@@ -19,7 +19,7 @@ data:extend{
 
 data.raw.lab.lab.energy_source = new_burner{emissions = 0.04}
 data.raw.recipe.lab.ingredients = {
-	{"simple-gear-box", 10},
+	{"iron-gear-wheel", 20},
 	{"transport-belt", 4},
 	{"stone-furnace", 2}
 }
@@ -55,8 +55,18 @@ with_recipe_ingredients("radar",
     {"iron-plate", 10}
   }
 )
+local pipe_picture = assembler1pipepictures()
+pipe_picture.south.shift = { 0, 4.5 }
+pipe_picture.south.hr_version.shift = { 0, 4.5 }
 
-data.raw["rocket-silo"]["rocket-silo"].energy_source = new_burner({emissions = 0.1})
+data.raw["rocket-silo"]["rocket-silo"].energy_source = { type = "void" }
+
+table.insert(data.raw.recipe["rocket-part"].ingredients, { "cooling-fluid-barrel", 1 } )
+
+table.insert(data.raw.technology["rocket-silo"].effects, {
+  type = "unlock-recipe",
+  recipe = "cooling-fluid"
+})
 with (data.raw.recipe["rocket-silo"], 
   {
     ingredients =

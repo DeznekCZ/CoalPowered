@@ -62,7 +62,7 @@ function new_burner(data)
         type = "burner",
         fuel_category = data.fuel_category or "chemical",
         effectivity = data.efectivity or 1,
-        emissions = data.emissions or 0.02,
+        emissions_per_second_per_watt = data.emissions or 0.02,
         fuel_inventory_size = data.fuel_inventory_size or 1,
         burnt_inventory_size = data.burnt_inventory_size,
         smoke =
@@ -140,3 +140,34 @@ function add_limitation(item_name)
 end
 
 require ("prototypes.upgrade")
+
+data:extend{
+  {
+    type = "fluid",
+    name = "cooling-fluid",
+    base_color = {r=0, g=0.34, b=0.6},
+    flow_color = {r=0.7, g=0.7, b=0.7},
+    icon = "__CoalPowered__/graphics/icons/cooling-fluid.png",
+    icon_size = 32,
+    default_temperature = -5,
+    max_temperature = -5,
+    fuel_value = "800kJ",
+    subgroup = "fluid-recipes",
+    order = "e-[lubricant-cooling]",
+    auto_barrel = true
+  },
+  {
+    type = "recipe",
+    name = "cooling-fluid",
+    category = "chemistry",
+    energy_required = 2,
+    ingredients = {
+      { type = "fluid", name = "light-oil", amount = 20 }
+    },
+    results = {
+      { type = "fluid", name = "cooling-fluid", amount = 20 }
+    },
+    crafting_machine_tint = { primary = {r=0.52,g=1,b=0.96,a=0}, secondary = {r=0.52,g=1,b=0.96,a=0}, tertiary = {r=0.52,g=1,b=0.96,a=0}},
+    enabled = false
+  }
+}

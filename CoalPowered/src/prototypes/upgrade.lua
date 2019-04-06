@@ -11,7 +11,8 @@ data:extend{
     icon_size = 32,
     subgroup = "raw-resource",
     order = "e[iron-scrap]",
-    stack_size = 50
+    stack_size = 50,
+    allow_decomposition = false
   },
   {
     type = "recipe",
@@ -113,7 +114,8 @@ function upgrade_recipe(info_function)
     type = "recipe",
     category = "upgrade-crafting",
     icon_size = 32,
-    enabled = false
+    enabled = false,
+    allow_decomposition = false
   }
   if string.len(upgrade_info.name) > 0 then
     recipe.name = upgrade_info.type .. "-" .. upgrade_info.name
@@ -138,6 +140,7 @@ function upgrade_recipe(info_function)
       upgrade_localised(upgrade_info.source.name), 
       upgrade_localised(upgrade_info.target.name) 
     }
+    recipe.main_product = upgrade_info.target.name
   end
   recipe.energy_required = upgrade_info.energy_required
   
