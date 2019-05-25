@@ -165,7 +165,7 @@ with_recipe ("personal-roboport-equipment",
   }
 )
 
-with_recipe ("personal-roboport-equipment-2", 
+with_recipe ("personal-roboport-mk2-equipment", 
   {
     category = "advanced-crafting",
     ingredients =
