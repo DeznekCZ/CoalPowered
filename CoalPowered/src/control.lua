@@ -93,7 +93,7 @@ script.on_event(defines.events.on_tick, function(event)
         and player.controller_type == defines.controllers.character then
       if player.character ~= nil and player.character.grid ~= nil then
         local grid = player.character.grid
-        local ammo_inventory = player.get_inventory(defines.inventory.player_ammo)
+        local ammo_inventory = player.get_inventory(defines.inventory.character_ammo)
         local main_inventory = player.get_main_inventory()
         reload(grid, ammo_inventory, main_inventory)
       end

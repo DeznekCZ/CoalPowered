@@ -62,7 +62,6 @@ function new_burner(data)
         type = "burner",
         fuel_category = data.fuel_category or "chemical",
         effectivity = data.efectivity or 1,
-        emissions_per_second_per_watt = data.emissions or 0.02,
         fuel_inventory_size = data.fuel_inventory_size or 1,
         burnt_inventory_size = data.burnt_inventory_size,
         smoke =
@@ -76,6 +75,7 @@ function new_burner(data)
           }
         }
       }
+  burner_d.emissions_per_second_per_watt = (data.emissions or 0.02) * --[[Effectivity counter]](0.001 / burner_d.effectivity)
   if data.extra then
     for var, val in pairs(data.extra) do
       burner_d[var] = val
@@ -171,3 +171,5 @@ data:extend{
     enabled = false
   }
 }
+
+require ("prototypes.metalurgy")
