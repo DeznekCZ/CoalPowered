@@ -208,6 +208,12 @@ with (technology["mining-productivity-4"],
   }
 )
 
+with (technology["space-science-pack"], 
+  {
+    prerequisites = { "rocket-silo" }
+  }
+)
+
 with (technology["atomic-bomb"], 
   {
     prerequisites = { "utility-science-pack", "production-science-pack" }
