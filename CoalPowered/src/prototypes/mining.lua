@@ -50,8 +50,15 @@ data:extend{
 	{
 	  type = "item",
 		name = "dirty-uranium-ore",
-		icon = "__CoalPowered__/graphics/icons/dirty-uranium-ore.png",
-		icon_size = 32,
+		icon = "__CoalPowered__/graphics/icons/mip/dirty-uranium-ore.png",
+		icon_size = 64,
+		pictures =
+    {
+      { size = 64, filename = "__CoalPowered__/graphics/icons/mip/dirty-uranium-ore.png",   scale = 0.25, mipmap_count = 4 },
+      { size = 64, filename = "__CoalPowered__/graphics/icons/mip/dirty-uranium-ore-1.png", scale = 0.25, mipmap_count = 4 },
+      { size = 64, filename = "__CoalPowered__/graphics/icons/mip/dirty-uranium-ore-2.png", scale = 0.25, mipmap_count = 4 },
+      { size = 64, filename = "__CoalPowered__/graphics/icons/mip/dirty-uranium-ore-3.png", scale = 0.25, mipmap_count = 4 }
+    },
 		subgroup = "raw-resource",
 		order = "g[dirty-uranium-ore]",
 	    stack_size = 50
