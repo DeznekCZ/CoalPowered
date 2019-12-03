@@ -330,6 +330,11 @@ technology["rocket-control-unit"] = nil
 item["rocket-control-unit"] = nil
 recipe["rocket-control-unit"] = nil
 
+technology["battery"] = nil
+technology["electric-energy-accumulators"] = nil
+technology["nuclear-power"] = nil
+technology["nuclear-fuel-reprocessing"] = nil
+
 -- Remove recipe from limitation
 
 remove_limitation("rocket-control-unit")

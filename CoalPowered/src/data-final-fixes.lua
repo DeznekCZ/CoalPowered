@@ -61,6 +61,33 @@ pipe_picture.south.hr_version.shift = { 0, 4.5 }
 
 data.raw["rocket-silo"]["rocket-silo"].energy_source = { type = "void" }
 
+--with ( data.raw["rocket-silo"]["rocket-silo"],
+--  {
+--    energy_usage = "750kW", --energy usage used when crafting the rocket
+--    idle_energy_usage = "10kW",
+--    lamp_energy_usage = "10kW",
+--    active_energy_usage = "750kW",
+--    
+--    energy_source = {
+--      type = "fluid",
+--      emissions_per_minute = 4,
+--      fluid_box = {
+--        base_area = 1,
+--          height = 1,
+--          base_level = -1,
+--          pipe_covers = pipecoverspictures(),
+--          pipe_connections =
+--          {
+--            {type = "input", position = {0.0, 5.2}}
+--          },
+--          production_type = "input",
+--          filter = "cooling-fluid"
+--      },
+--      burns_fluid = true,
+--      scale_fluid_usage = true
+--    }
+--  })
+
 table.insert(data.raw.recipe["rocket-part"].ingredients, { "cooling-fluid-barrel", 1 } )
 
 table.insert(data.raw.technology["rocket-silo"].effects, {

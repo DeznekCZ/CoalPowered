@@ -92,12 +92,12 @@ table.insert(data.raw.technology["uranium-processing"].effects,
     recipe = "clear-uranium"
   }
 )
-with_remove(data.raw.technology["nuclear-power"].effects, 
-  function (item) 
-    return string.equals(item.type, "unlock-recipe") 
-       and string.equals(item.recipe, "steam-turbine")
-  end
-)
+--with_remove(data.raw.technology["nuclear-power"].effects, 
+--  function (item) 
+--    return string.equals(item.type, "unlock-recipe") 
+--       and string.equals(item.recipe, "steam-turbine")
+--  end
+--)
 data.raw.recipe["steam-generator"] = nil
 data.raw.recipe["steam-turbine"] = nil
 
