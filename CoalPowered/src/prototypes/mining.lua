@@ -26,6 +26,7 @@ new_miner_item.name = "burner-mining-drill-2"
 new_miner_item.order = "a[items]-a[burner-mining-drill-2]"
 new_miner_item.place_result = "burner-mining-drill-2"
 new_miner_item.icon = new_miner_item.icon:gsub("__base__","__CoalPowered__")
+new_miner_item.icon_size = 32
 
 local f_ani_s = function(animations,faces) for _,face in pairs(faces) do 
 	local layer = animations[face].layers[1] 

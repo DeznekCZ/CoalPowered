@@ -132,6 +132,7 @@ with(data.raw.item["iron-gear-wheel"],
   {
     localised_name = { "item-name.iron-gear-set" },
     icon = "__CoalPowered__/graphics/icons/iron-gear-set.png",
+    icon_size = 32,
   }
 )
 data.raw.item["empty-barrel"].order = "d-b[empty-barrel]"

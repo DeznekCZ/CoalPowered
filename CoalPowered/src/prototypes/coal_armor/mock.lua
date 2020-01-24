@@ -99,6 +99,7 @@ data:extend{
       height = 2,
       type = "full"
     },
+    color_lookup = {{0.5, "__core__/graphics/color_luts/nightvision.png"}},
     energy_source =
     {
       type = "electric",

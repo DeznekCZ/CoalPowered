@@ -81,6 +81,7 @@ assemblers["assembling-machine-3"].next_upgrade = "assembling-machine-4"
 local assembler_4 = util.table.deepcopy(assemblers["assembling-machine-3"])
 assembler_4.name = "assembling-machine-4"
 assembler_4.icon = "__CoalPowered__/graphics/icons/assembling-machine-4.png"
+assembler_4.icon_size = 32
 assembler_4.crafting_speed = 2
 assembler_4.energy_source.effectivity = 1.5
 assembler_4.energy_source.emissions = 0.02
@@ -89,7 +90,7 @@ assembler_4.fluid_boxes =
 {
   {
     production_type = "input",
-    pipe_picture = assembler1pipepictures(),
+    pipe_picture = assembler2pipepictures(),
     pipe_covers = pipecoverspictures(),
     base_area = 10,
     base_level = -1,
@@ -98,7 +99,7 @@ assembler_4.fluid_boxes =
   },
   {
     production_type = "output",
-    pipe_picture = assembler1pipepictures(),
+    pipe_picture = assembler2pipepictures(),
     pipe_covers = pipecoverspictures(),
     base_area = 10,
     base_level = -1,
