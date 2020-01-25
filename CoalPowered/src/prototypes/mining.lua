@@ -129,3 +129,23 @@ with_recipe_ingredients("pumpjack",
     {"pipe", 10}
   }
 )
+
+data.raw.recipe["electric-mining-drill"] = nil
+----[[
+data.raw["pump"]["pump"].energy_source = new_burner{
+  emissions = 0.01,
+  extra = {usage_priority = "secondary-input"}
+}
+with_recipe_ingredients("pump",
+  {
+    {"pipe", 2},
+    {"iron-gear-wheel", 4}
+  }
+)
+
+with_recipe_ingredients("offshore-pump",
+  {
+    {"pipe", 2},
+    {"iron-gear-wheel", 4}
+  }
+)

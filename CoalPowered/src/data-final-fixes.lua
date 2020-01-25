@@ -10,9 +10,11 @@ data:extend{
     name = "charcoal",
     localised_name = {"recipe-name.charcoal"},
     enabled = true,
-    energy_required = 3.2,
-    ingredients = {{"wood", 4}},
+    energy_required = 3,
+    ingredients = {{"wood", 2}},
     result = "coal",
+    subgroup = "raw-material",
+    order = "a[coal]",
     category = "smelting",
   },
 }
@@ -24,38 +26,7 @@ data.raw.recipe.lab.ingredients = {
 	{"stone-furnace", 2}
 }
 
-data.raw.recipe["electric-mining-drill"] = nil
-----[[
-data.raw["pump"]["pump"].energy_source = new_burner{
-	emissions = 0.01,
-	extra = {usage_priority = "secondary-input"}
-}
-with_recipe_ingredients("pump",
-  {
-    {"pipe", 2},
-    {"iron-gear-wheel", 4}
-  }
-)
-
-with_recipe_ingredients("offshore-pump",
-  {
-    {"pipe", 2},
-    {"iron-gear-wheel", 4}
-  }
-)
-
-data.raw["radar"]["radar"].energy_source = new_burner{
-	emissions = 0.05,
-    extra = {usage_priority = "secondary-input"}
-}
-with_recipe_ingredients("radar",
-  {
-    {"stone-furnace", 1},
-    {"simple-gear-box", 1},
-    {"iron-plate", 10}
-  }
-)
-local pipe_picture = assembler1pipepictures()
+local pipe_picture = assembler2pipepictures()
 pipe_picture.south.shift = { 0, 4.5 }
 pipe_picture.south.hr_version.shift = { 0, 4.5 }
 
@@ -107,21 +78,17 @@ with (data.raw.recipe["rocket-silo"],
   }
 )
 
-data.raw["arithmetic-combinator"]["arithmetic-combinator"].energy_source.type = "void"
-data.raw["decider-combinator"]["decider-combinator"].energy_source.type = "void"
-data.raw["programmable-speaker"]["programmable-speaker"].energy_source.type = "void"
+require ("prototypes.combinators")
 
 require ("prototypes.mining")
-
-data.raw["assembling-machine"]["oil-refinery"].energy_source = new_burner{emissions = 0.15}
 
 require ("prototypes.inserter")
 require ("prototypes.logistics")
 require ("prototypes.clockwork")
 require ("prototypes.gearbox")
 require ("prototypes.module")
-require ("prototypes.lamp")
 require ("prototypes.loader")
+require ("prototypes.radar")
 
 require ("prototypes.coal_armor.disable")
 require ("prototypes.coal_armor.mock")

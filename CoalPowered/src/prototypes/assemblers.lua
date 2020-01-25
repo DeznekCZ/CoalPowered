@@ -52,6 +52,7 @@ assemblers["chemical-plant"].energy_source = new_burner{
   effectivity = 1,
   emissions = 0.04
 }
+assemblers["chemical-plant"].energy_source.smoke = nil
 with_recipe_ingredients("chemical-plant",
   {
     {"steel-plate", 5},
@@ -61,11 +62,12 @@ with_recipe_ingredients("chemical-plant",
   }
 )
 
+-- Oil Refinery
+assemblers["oil-refinery"].energy_source = new_burner{ emissions = 0.15 }
+assemblers["oil-refinery"].energy_source.smoke = nil
+
 -- Centrifuge
-assemblers["centrifuge"].energy_source = new_burner{
-  effectivity = 1,
-  emissions = 0.04
-}
+assemblers["centrifuge"].energy_source = new_burner{ emissions = 0.04 }
 with_recipe_ingredients ("centrifuge", 
   {
     {"concrete", 100},

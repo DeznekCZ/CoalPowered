@@ -98,6 +98,8 @@ upgrade_recipe(function()
   upgrade_info.type = upgrade_info.types.switch
   upgrade_info.source.name = "logistic-robot"
   upgrade_info.target.name = "construction-robot"
+  upgrade_info.icon_size = 64
+  upgrade_info.icon_mipmaps = 4
   upgrade_info.energy_required = 2
   upgrade_info.ingredients =
   {
@@ -114,6 +116,8 @@ upgrade_recipe(function()
   upgrade_info.type = upgrade_info.types.switch
   upgrade_info.source.name = "construction-robot"
   upgrade_info.target.name = "logistic-robot"
+  upgrade_info.icon_size = 64
+  upgrade_info.icon_mipmaps = 4
   upgrade_info.energy_required = 2
   upgrade_info.ingredients =
   {

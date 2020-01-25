@@ -33,7 +33,7 @@ local m_item = {
   type = "item",
   name = "gas-furnace",
   icon = "__base__/graphics/icons/electric-furnace.png",
-  icon_size = 32,
+  icon_size = 64, icon_mipmaps = 4,
   subgroup = "smelting-machine",
   order = "d[gas-furnace]",
   place_result = "gas-furnace",

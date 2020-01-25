@@ -63,6 +63,8 @@ local recipe_info_defaults =
   source = { name = "", amount = 1 },
   target = { name = "", amount = 1 },
   icon = "",
+  icon_size = 32,
+  icon_mipmaps = 1,
   energy_required = 10,
   ingredients = {},
   results = {},
@@ -80,6 +82,8 @@ upgrade_info =
   source = { name = "", amount = 1 },
   target = { name = "", amount = 1 },
   icon = "",
+  icon_size = 32,
+  icon_mipmaps = 1,
   energy_required = 10,
   ingredients = {},
   results = {},
@@ -113,9 +117,10 @@ function upgrade_recipe(info_function)
   local recipe = {
     type = "recipe",
     category = "upgrade-crafting",
-    icon_size = 32,
     enabled = false,
-    allow_decomposition = false
+    allow_decomposition = false,
+    icon_size = upgrade_info.icon_size,
+    icon_mipmaps = upgrade_info.icon_mipmaps,
   }
   if string.len(upgrade_info.name) > 0 then
     recipe.name = upgrade_info.type .. "-" .. upgrade_info.name
