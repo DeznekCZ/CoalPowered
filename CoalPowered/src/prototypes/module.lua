@@ -137,6 +137,50 @@ table.insert(data.raw.technology["steel-processing"].effects,
 add_limitation("steel-gear-set")
 add_limitation("steel-stick")
 
+--[[ spidertron ]]
+
+data.raw.recipe["spidertron-remote"] = nil
+data.raw.item["spidertron-remote"] = nil
+data.raw.technology["spidertron"].effects = 
+    {
+      {
+        type = "unlock-recipe",
+        recipe = "spidertron"
+      }
+    }
+data.raw.technology["spidertron"].prerequisites = {
+  "military-4", "exoskeleton-equipment", "portable-generator-equipment", "rocketry", "gyroscope", "effectivity-module-3"
+}
+
+local function spidertron_clearout(ingredients)
+  for _,ingredient in pairs(ingredients) do
+    if string.find(ingredient[1], "fusion-reactor-equipment", 1, true) then
+      ingredient[1] = "portable-generator-equipment";
+      ingredient[2] = ingredient[2] * 3;
+    elseif string.find(ingredient[1], "rocket-control-unit", 1, true) then
+      ingredient[1] = "gyroscope";
+      ingredient[2] = 8;
+    end
+  end
+end
+
+if data.raw.recipe["spidertron"].normal then
+  spidertron_clearout(data.raw.recipe["spidertron"].normal.ingredients)
+
+  if data.raw.recipe["spidertron"].expensive then
+    spidertron_clearout(data.raw.recipe["spidertron"].expensive.ingredients)
+  end
+elseif data.raw.recipe["spidertron"].ingredients then
+  spidertron_clearout(data.raw.recipe["spidertron"].ingredients)
+end
+
+data.raw["spider-vehicle"]["spidertron"].energy_source = new_burner{
+  effectivity = 0.75,
+  emissions = 0.02,
+  fuel_inventory_size = 3
+}
+data.raw["spider-vehicle"]["spidertron"].movement_energy_consumption = "1200kW"
+
 --[[ Items ]]
 
 data:extend{

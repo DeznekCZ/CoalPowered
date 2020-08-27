@@ -49,7 +49,7 @@ data.raw.technology["coal-liquefaction"].effects = {
       }
    }
    
-data.raw.technology["basic-electronics"].effects = 
+data.raw.technology["electronics"].effects = 
     {
       {
         type = "unlock-recipe",
@@ -65,7 +65,7 @@ data.raw.technology["basic-electronics"].effects =
       }
     }
     
-data.raw.technology["electric-mining"].effects = {}
+--data.raw.technology["electric-mining"].effects = {}
     
 data.raw.recipe["chemical-science-pack"].ingredients =
     {
@@ -420,76 +420,11 @@ recipe["electric-furnace"] = nil
 data.raw.furnace["electric-furnace"] = nil
 item["beacon"] = nil
 recipe["beacon"] = nil
+local mock_beacon = data.raw.beacon.beacon
+mock_beacon.name = "mock-beacon"
+mock_beacon.minable.result = "wood"
 data.raw.beacon.beacon = nil
-data:extend
-{
-  {
-    type = "beacon",
-    name = "mock-beacon",
-    icon = "__base__/graphics/icons/beacon.png",
-    icon_size = 32,
-    flags = {"placeable-player", "player-creation"},
-    minable = {mining_time = 0.2, result = "wood"},
-    order = "a",
-    max_health = 200,
-    corpse = "big-remnants",
-    dying_explosion = "medium-explosion",
-    collision_box = {{-1.2, -1.2}, {1.2, 1.2}},
-    selection_box = {{-1.5, -1.5}, {1.5, 1.5}},
-    drawing_box = {{-1.5, -2.2}, {1.5, 1.3}},
-    allowed_effects = {"consumption", "speed", "pollution"},
-    base_picture =
-    {
-      filename = "__base__/graphics/entity/beacon/beacon-base.png",
-      width = 116,
-      height = 93,
-      shift = { 0.34375, 0.046875}
-    },
-    animation =
-    {
-      filename = "__base__/graphics/entity/beacon/beacon-antenna.png",
-      width = 54,
-      height = 50,
-      line_length = 8,
-      frame_count = 32,
-      shift = { -0.03125, -1.71875},
-      animation_speed = 0.5
-    },
-    animation_shadow =
-    {
-      filename = "__base__/graphics/entity/beacon/beacon-antenna-shadow.png",
-      width = 63,
-      height = 49,
-      line_length = 8,
-      frame_count = 32,
-      shift = { 3.140625, 0.484375},
-      animation_speed = 0.5
-    },
-    radius_visualisation_picture =
-    {
-      filename = "__base__/graphics/entity/beacon/beacon-radius-visualization.png",
-      priority = "extra-high-no-scale",
-      width = 10,
-      height = 10
-    },
-    supply_area_distance = 3,
-    energy_source =
-    {
-      type = "electric",
-      usage_priority = "secondary-input"
-    },
-    vehicle_impact_sound =  { filename = "__base__/sound/car-metal-impact.ogg", volume = 0.65 },
-    energy_usage = "480kW",
-    distribution_effectivity = 0.5,
-    module_specification =
-    {
-      module_slots = 2,
-      module_info_icon_shift = {0, 0.5},
-      module_info_multi_row_initial_height_modifier = -0.3
-    }
-  },
-}
-
+data:extend{ mock_beacon }
 item["small-plane"] = nil
 recipe["small-plane"] = nil
 
@@ -543,9 +478,11 @@ mock_generator.order = "a"
 data.raw.generator["steam-engine"] = nil
 item["steam-engine"] = nil
 recipe["steam-engine"] = nil
+--[[
 with_remove(technology["analyse-ship"].effects,function (effect)
   return effect.recipe and string.find("steam-engine", effect.recipe, 1, true)
 end)
+]]
 
 data:extend{
   mock_generator

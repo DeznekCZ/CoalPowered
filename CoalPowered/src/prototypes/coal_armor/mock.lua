@@ -126,6 +126,59 @@ data:extend{
     categories = {"mock"},
     darkness_to_turn_on = 0.5
   },
+  {
+    type = "active-defense-equipment",
+    name = "mock-personal-laser-defense-equipment",
+    sprite =
+    {
+      filename = "__base__/graphics/equipment/personal-laser-defense-equipment.png",
+      width = 64,
+      height = 64,
+      priority = "medium"
+    },
+    shape =
+    {
+      width = 2,
+      height = 2,
+      type = "full"
+    },
+    energy_source =
+    {
+      type = "electric",
+      usage_priority = "secondary-input",
+      buffer_capacity = "220kJ"
+    },
+
+    attack_parameters =
+    {
+      type = "beam",
+      cooldown = 40,
+      range = 15,
+      --source_direction_count = 64,
+      --source_offset = {0, -3.423489 / 4},
+      damage_modifier = 3,
+      ammo_type =
+      {
+        category = "laser-turret",
+        energy_consumption = "50kJ",
+        action =
+        {
+          type = "direct",
+          action_delivery =
+          {
+            type = "beam",
+            beam = "laser-beam",
+            max_length = 15,
+            duration = 40,
+            source_offset = {0, -1.31439 }
+          }
+        }
+      }
+    },
+
+    automatic = true,
+    categories = {"mock"}
+  },
 }
 
 --[[ Items ]]
@@ -169,6 +222,16 @@ data:extend{
     placed_as_equipment_result = "mock-night-vision-equipment",
     subgroup = "equipment",
     order = "f[night-vision]-a[night-vision-equipment]",
+    stack_size = 20
+  },
+  {
+    type = "item",
+    name = "mock-personal-laser-defense-equipment",
+    icon = "__base__/graphics/icons/personal-laser-defense-equipment.png",
+    icon_size = 32,
+    placed_as_equipment_result = "mock-personal-laser-defense-equipment",
+    subgroup = "equipment",
+    order = "f[active-defense]-a[personal-laser-defense-equipment]",
     stack_size = 20
   },
 }
