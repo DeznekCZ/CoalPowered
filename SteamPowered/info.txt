@@ -1,0 +1,20 @@
+Everyone did have elektricity issues. So this mode gives the solution.
+
+This mod contains:
+Coal powered research, mining, smelting, assembling, centrifuging and rocket launching.
+
+There is no limitation for wood, coal, solid fuel, rocket fuel and nuclear fuel but be carefull, every destroying of building destroys the rest of energy.
+
+So enjoy and let comments, I'll be glad for bug or issue report.
+Note: Runs only with new game.
+
+Known issues:
+Combinators - not functional
+Lamp - replaced by Campfire and Oil lamp (consumes bareled petroleum gas)
+Power poles - removed (wait for future use in combinator logistic)
+Pump - not functional
+Radar - not functional
+Robobort - not functional
+Solar panels - removed succesfully (researchable but not placable)
+
+Power consuption is now in alpha
