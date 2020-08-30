@@ -1,9 +1,12 @@
 
-local function generate_turret(magazine)
+function generate_turret(magazine)
   local damage = 0
+  local magazine_size = 1
   if data.raw.ammo[magazine] then
+    local magazine_item = data.raw.ammo[magazine]
+    magazine_size = magazine_item.magazine_size
     local action = 
-      data.raw.ammo[magazine]
+      magazine_item
         .ammo_type
         .action;
     if action[1] then action = action[1] end
@@ -42,7 +45,7 @@ local function generate_turret(magazine)
     {
       type = "electric",
       usage_priority = "secondary-input",
-      buffer_capacity = "1MJ",
+      buffer_capacity = magazine_size .. "MJ",
       input_flow_limit = "1W",
     },
     attack_parameters =

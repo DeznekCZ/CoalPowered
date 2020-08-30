@@ -24,5 +24,5 @@ data:extend(
       time = 15
     },
     order = "a-b-c"
-  },
+  }
 })

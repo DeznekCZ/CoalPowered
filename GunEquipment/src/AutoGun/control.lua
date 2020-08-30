@@ -5,8 +5,10 @@
   
 ]]
 AutoGun = { 
-  magazines = { "uranium-rounds-magazine", "piercing-rounds-magazine", "firearm-magazine" }
+  magazines = { }
 }
+
+Energy_1MJ = 1000000
 
 function AutoGun.AddMagazine(magazine)
   if game.item_prototypes[magazine] then
@@ -24,14 +26,14 @@ function AutoGun.ReloadUnloaded(grid, weapon_ref, ammoInv, characterInv, magazin
   local inv = ammoInv
   local weapon = weapon_ref.value
   
-  if ammo_stack and ammo_stack.count > 0 and ammo_stack.ammo > 0 then
+  if ammo_stack and ammo_stack.count > 0 then
     -- ok
   else
     inv = characterInv
     ammo_stack = characterInv.find_item_stack(magazine)
   end
   
-  if ammo_stack and ammo_stack.count > 0 and ammo_stack.ammo > 0 then
+  if ammo_stack and ammo_stack.count > 0 then
     
     if string.find(weapon.name, magazine, 1, true) then
       -- same weapon as magazines
@@ -45,23 +47,15 @@ function AutoGun.ReloadUnloaded(grid, weapon_ref, ammoInv, characterInv, magazin
       weapon_ref.value = weapon
     end
     
-    if ammo_stack.ammo > 1 then
-      weapon.energy = weapon.max_energy
-      ammo_stack.ammo = ammo_stack.ammo - 1
-      return true -- REFILLED
-    elseif ammo_stack.ammo == 1 then
-      weapon.energy = weapon.max_energy
-      if ammo_stack.count > 1 then
-        ammo_stack.ammo = ammo_stack.prototype.magazine_size
-        ammo_stack.count = ammo_stack.count - 1
-      else
-        inv.remove(ammo_stack)
-        -- No ammo (from refilling)
-      end
-      return true -- REFILLED
+    weapon.energy = ammo_stack.ammo * Energy_1MJ
+    -- game.players["DeznekCZ"].print("energy: " .. weapon.energy)
+    
+    if ammo_stack.count > 1 then
+      ammo_stack.count = ammo_stack.count - 1
     else
-      return false -- No ammo (unexpected state)
+      inv.remove(ammo_stack)
     end
+    return true -- REFILLED
   else
     if string.find(weapon.name, "no-magazine", 1, true) then
       -- was switched
@@ -82,7 +76,7 @@ function AutoGun.Reload(grid, ammoInv, characterInv)
   
   for id,weapon in pairs(grid.equipment) do
     if string.find(weapon.name, "personal-turret", 1, true)
-        and weapon.energy ~= weapon.max_energy then
+        and weapon.energy < Energy_1MJ then
       missing[id] = weapon
     end
   end
@@ -96,6 +90,59 @@ function AutoGun.Reload(grid, ammoInv, characterInv)
       if loaded then break end
     end
   end
+end
+
+function AutoGun.DirectDamageType(prototype, damage)
+  local ammo_type = prototype.get_ammo_type()
+  for _,action in pairs(ammo_type.action) do
+    if string.match(action.type, "direct") then
+      for _,action_delivery in pairs(action.action_delivery) do
+        if string.match(action_delivery.type, "instant") then
+          for _,target_effect in pairs(action_delivery.target_effects) do
+            if string.match(target_effect.type, "damage") then
+              damage.value = target_effect.damage.amount
+              return true
+            end
+          end
+        end
+      end
+    end
+  end
+  return false
+end
+
+function AutoGun.OnInit()
+  local damageCache = {}
+  for item_name,item_prototype in pairs(game.item_prototypes) do
+    local damage = { value = 0 }
+    if string.match(item_prototype.type, "ammo")
+      and string.match(item_name, ".*%-magazine")
+      and AutoGun.DirectDamageType(item_prototype, damage) then
+      AutoGun.AddMagazine(item_name)
+      damageCache[item_name] = damage.value
+    end
+  end
+  
+  -- Sort by damage
+  local origin = AutoGun.magazines
+  local sorted = {}
+  for i=1, #origin do
+    local maximum = 0
+    local higher
+    local higher_name
+  	for j,name in pairs(origin) do
+  	  if damageCache[name] > maximum then
+        higher = j
+        higher_name = name
+  	    maximum = damageCache[name]
+  	  end
+    end
+    table.remove(origin, higher)
+    table.insert(sorted, #sorted + 1, higher_name)
+  end
+  
+  AutoGun.magazines = sorted
+  -- game.players["DeznekCZ"].print("ammo types: " .. serpent.block(sorted))
 end
 
 function AutoGun.OnTick(player)
@@ -114,6 +161,10 @@ function AutoGun.OnTick(player)
     local character_inventory = player.get_main_inventory()
     AutoGun.Reload(grid, main_inventory, character_inventory)
   end
+end
+
+function AutoGun.OnTakeOut(weapon, grid, owner)
+  
 end
 
 return AutoGun
