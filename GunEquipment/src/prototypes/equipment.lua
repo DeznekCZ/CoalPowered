@@ -1,4 +1,6 @@
 
+local gunshoot = require("__base__.prototypes.entity.demo-sounds").gun_turret_gunshot
+
 function generate_turret(magazine)
   local damage = 0
   local magazine_size = 1
@@ -52,7 +54,7 @@ function generate_turret(magazine)
     {
       type = "projectile",
       ammo_category = "bullet",
-      cooldown = 10,
+      cooldown = 6,
       movement_slow_down_factor = 0.1,
       projectile_creation_distance = 1.39375,
       projectile_center = {0, -0.0875}, -- same as gun_turret_attack shift
@@ -97,7 +99,7 @@ function generate_turret(magazine)
         }
       },
       range = 18,
-      sound = require("__base__.prototypes.entity.demo-sounds").gun_turret_gunshot
+      sound = gunshoot
     },
 
     automatic = true,

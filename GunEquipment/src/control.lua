@@ -20,3 +20,23 @@ script.on_event(defines.events.on_tick, function(event)
     AutoGun.OnTick(player)
   end
 end)
+
+script.on_event({ 
+      defines.events.on_built_entity, 
+      defines.events.on_robot_built_entity
+    }, function(event)
+  AutoGun.OnEntityBuild(event.created_entity)
+end)
+
+local EntityEnded = function(event)
+  AutoGun.OnEntityEnded(event.entity.unit_number)
+end
+
+script.on_event( defines.events.on_entity_died,         EntityEnded, {{filter = "vehicle"}} )
+script.on_event( defines.events.on_player_mined_entity, EntityEnded, {{filter = "vehicle"}} )
+script.on_event( defines.events.on_robot_mined_entity,  EntityEnded, {{filter = "vehicle"}} )
+script.on_event( defines.events.on_entity_destroyed,    function(event)
+  AutoGun.OnEntityEnded(event.unit_number)
+end )
+
+

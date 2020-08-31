@@ -5,10 +5,12 @@
   
 ]]
 AutoGun = { 
-  magazines = { }
+  magazines = { },
+  vehicles = { }
 }
 
 Energy_1MJ = 1000000
+VehicleTypes = { "car", "tank", "train", "spider-vehicle" }
 
 function AutoGun.AddMagazine(magazine)
   if game.item_prototypes[magazine] then
@@ -28,7 +30,7 @@ function AutoGun.ReloadUnloaded(grid, weapon_ref, ammoInv, characterInv, magazin
   
   if ammo_stack and ammo_stack.count > 0 then
     -- ok
-  else
+  elseif characterInv then
     inv = characterInv
     ammo_stack = characterInv.find_item_stack(magazine)
   end
@@ -143,24 +145,72 @@ function AutoGun.OnInit()
   
   AutoGun.magazines = sorted
   -- game.players["DeznekCZ"].print("ammo types: " .. serpent.block(sorted))
+  
+  -- load all vehicles with grid
+  for _,surface in pairs(game.surfaces) do
+    local vehicles = surface.find_entities_filtered {
+      type = VehicleTypes
+    }
+    
+    for _,vehicle in pairs(vehicles) do
+      local grid = vehicle.grid
+      if grid then
+        AutoGun.vehicles[vehicle.unit_number] = vehicle
+      end
+    end
+  end
 end
 
 function AutoGun.OnTick(player)
-  if not player.driving 
-      and player.controller_type == defines.controllers.character then
+  if player.controller_type == defines.controllers.character then
     if player.character ~= nil and player.character.grid ~= nil then
       local grid = player.character.grid
-      local ammo_inventory = player.get_inventory(defines.inventory.character_ammo)
+      -- local ammo_inventory = player.get_inventory(defines.inventory.character_ammo)
       local main_inventory = player.get_main_inventory()
-      AutoGun.Reload(grid, ammo_inventory, main_inventory)
+      AutoGun.Reload(grid, main_inventory, nil)
     end
-  elseif player.driving 
+  end
+  
+  if player.driving
       and player.vehicle ~= nil and player.vehicle.grid ~= nil then
     local grid = player.vehicle.grid
     local main_inventory = player.vehicle.get_inventory(defines.inventory.car_trunk)
     local character_inventory = player.get_main_inventory()
     AutoGun.Reload(grid, main_inventory, character_inventory)
   end
+  
+  for _,vehicle in pairs(AutoGun.vehicles) do
+    if vehicle.valid then
+      local driver = vehicle.get_driver()
+      local passenger = nil
+      if string.match(vehicle.type,"car") then
+        passenger = vehicle.get_passenger()
+      end
+      if not driver and not passenger then
+        -- game.players["DeznekCZ"].print("loading")
+        local grid = vehicle.grid
+        local main_inventory = vehicle.get_inventory(defines.inventory.car_trunk)
+        if main_inventory then
+          AutoGun.Reload(grid, main_inventory, nil)
+        end
+      end
+    end
+  end
+end
+
+function AutoGun.OnEntityBuild(entity)
+  for _,Type in pairs(VehicleTypes) do
+    Type = string.gsub(Type,"%-","%%-")
+    if string.match(entity.type, Type) then
+      AutoGun.vehicles[entity.unit_number] = entity
+      
+      break
+    end
+  end
+end
+
+function AutoGun.OnEntityEnded(unit_number)
+  AutoGun.vehicles[unit_number] = nil
 end
 
 function AutoGun.OnTakeOut(weapon, grid, owner)
