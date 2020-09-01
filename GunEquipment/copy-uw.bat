@@ -4,13 +4,13 @@ SET MOD_DEPENDENCIES=
 SET MOD_AUTHOR=DeznekCZ
 SET MOD_AUTHOR_CONTACT=www.facebook.com/DeznekCZ
 SET MOD_HOMEAPAGE=
-SET MOD_DESCRIPTION=Mode add automatic guns applyable to equipment grid. Mode was originaly contained in Coal Powered mode and was extracted because of possible complexity.
+SET MOD_DESCRIPTION=Mode add automatic guns applyable to equipment grid.
 
 SET FACTORIO_VERSION=1.0
 SET FACTORIO_VERSION_MIN=1.0.0
 
-SET PREVIOUS_VERSION=0.0.3
-SET LAST_VERSION=0.0.4
+SET PREVIOUS_VERSION=0.0.4
+SET LAST_VERSION=0.0.5
 
 SET MOD_LOCATION=%1
 SET PREVIOUS_VERSION_LOCATION=%APPDATA%\Factorio\mods\%MOD_NAME%_%PREVIOUS_VERSION%
