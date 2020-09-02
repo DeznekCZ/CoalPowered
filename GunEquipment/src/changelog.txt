@@ -1,6 +1,13 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.0.5
 Date: 2020-09-01 14:00
+  Fix:
+    - While place of train station, entity was registered as vehicle
+  Author:
+    - DeznekCZ
+---------------------------------------------------------------------------------------------------
+Version: 0.0.5
+Date: 2020-09-01 14:00
   Features:
     - Works with any modded ammo now
     - Ammo sort takes all direct instant effects into account
