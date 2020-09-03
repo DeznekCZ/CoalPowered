@@ -183,10 +183,12 @@ end
 
 function AutoGun.OnEntityBuild(entity)
   for _,Type in pairs(VehicleTypes) do
-    local len = string.len(Type)
+    local len = string.len(entity.type)
     Type = string.gsub(Type,"%-","%%-")
     local match = string.match(entity.type, Type)
-    if match and string.len(match) == len then
+    
+    if match and string.len(match) == len
+      and entity.grid then
       AutoGun.vehicles[entity.unit_number] = entity
 
       break
