@@ -23,12 +23,23 @@ function generate_turret(magazine)
   }
   layers[1].hr_version = use_layer(prep_layer_1.hr_version)
 
+  local magazine_localised_name
   if data.raw.ammo[magazine] then
     local magazine_item = data.raw.ammo[magazine]
+    magazine_localised_name = magazine_item.localised_name
     -- log(serpent.block(magazine_item))
 
 		-- icon of magazine
-    table.insert(layers, {filename = magazine_item.icon, size = magazine_item.icon_size})
+    if magazine_item.icon then
+      table.insert(layers, {filename = magazine_item.icon, size = magazine_item.icon_size})
+    else
+      for _, icon_data in ipairs(magazine_item.icons) do
+        icon_data = table.deepcopy(icon_data)
+        icon_data.filename = icon_data.icon
+        icon_data.size = icon_data.icon_size
+        table.insert(layers, icon_data)
+      end
+    end
 
     magazine_size = magazine_item.magazine_size
     -- just copy the whole action. This means it will work with multiple complex effects like rampants incendiary ammo etc
@@ -36,14 +47,23 @@ function generate_turret(magazine)
   else
     table.insert(layers, {filename = '__core__/graphics/icons/alerts/ammo-icon-red.png', size = 64}) -- no ammo graphic
   end
-  -- layers[2].shift = util.by_pixel(5, 5)
   layers[2].scale = 0.5 * 64 / layers[2].size
+
+  for i = 3, #layers do
+    layers[i].scale = (layers[i].scale or 1) * 0.5 * 64 / layers[2].size -- YES, it's supposed to be layer[2].size and not layer[i].size
+    -- scale is bugged, so we need a blank scale 1 image first for icons.
+    -- https://forums.factorio.com/viewtopic.php?f=7&t=71480&p=433700&hilit=scale#p433700
+    -- which means all other icons will be rescaled according to this value.
+    -- If they are shifted we might need to adjust those values too by scaling them.
+  end
   local turret =
   {
     type = "active-defense-equipment",
     name = "personal-turret-" .. magazine .. "-equipment",
-    localised_name =
-        { "item-name.personal-turret-equipment-info", { "item-name." .. magazine } },
+    localised_name = {
+    	"item-name.personal-turret-equipment-info", 
+    	magazine_localised_name or { "item-name." .. magazine }
+    },
     localised_description = {"item-description.personal-turret-equipment"},
     take_result = "personal-turret-equipment",
     sprite =
