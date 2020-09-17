@@ -1,6 +1,5 @@
-local gunshoot = require("__base__.prototypes.entity.demo-sounds").gun_turret_gunshot
-
 function generate_turret(magazine)
+  local gunshoot = require("__base__.prototypes.entity.demo-sounds").gun_turret_gunshot
   local action
   local magazine_size = 1
 
@@ -24,8 +23,8 @@ function generate_turret(magazine)
   layers[1].hr_version = use_layer(prep_layer_1.hr_version)
 
   local magazine_localised_name
-  if data.raw.ammo[magazine] then
-    local magazine_item = data.raw.ammo[magazine]
+  local magazine_item = data.raw.ammo[magazine]
+  if magazine_item then
     magazine_localised_name = magazine_item.localised_name
     -- log(serpent.block(magazine_item))
 
@@ -56,6 +55,88 @@ function generate_turret(magazine)
     -- which means all other icons will be rescaled according to this value.
     -- If they are shifted we might need to adjust those values too by scaling them.
   end
+  if magazine_item 
+      and magazine_item.reload_time
+      and magazine_item.reload_time > 0
+    then
+    local load_layers = util.table.deepcopy(layers)
+    table.insert(load_layers,{
+      filename = '__core__/graphics/icons/alerts/no-building-material-icon.png',
+      size = 64,
+      scale = 0.50,
+      shift = { x = 16, y = 16 },
+      run_mode = "forward-then-backward",
+      frame_count = 2,
+      animation_speed = 30,
+      repeat_count = magazine_item.reload_time / 30
+    })
+    
+    local function load_turret(size)
+      return {
+        type = "active-defense-equipment",
+        name = "personal-turret-" .. magazine .. "-equipment-reload-" .. size,
+        localised_name = {
+          "item-name.personal-turret-equipment-info", 
+          magazine_localised_name or { "item-name." .. magazine }
+        },
+        localised_description = {"item-description.personal-turret-equipment"},
+        take_result = "personal-turret-equipment",
+        sprite =
+        {
+          layers = load_layers
+        },
+        shape =
+        {
+          width = 2,
+          height = 2,
+          type = "full"
+        },
+        energy_source =
+        {
+          type = "electric",
+          usage_priority = "secondary-input",
+          buffer_capacity = magazine_item.reload_time .. "J",
+          input_flow_limit = "0W",
+        },
+        attack_parameters =
+        {
+          type = "projectile",
+          ammo_category = "bullet",
+          cooldown = 6,
+          movement_slow_down_factor = 0.1,
+          projectile_creation_distance = 1.39375,
+          projectile_center = {0, -0.0875}, -- same as gun_turret_attack shift
+          shell_particle =
+          {
+            name = "shell-particle",
+            direction_deviation = 0.1,
+            speed = 0.1,
+            speed_deviation = 0.03,
+            center = {-0.0625, 0},
+            creation_distance = -1.925,
+            starting_frame_speed = 0.2,
+            starting_frame_speed_deviation = 0.1
+          },
+          ammo_type =
+          {
+            category = "bullet",
+            energy_consumption = ( 1 + magazine_item.reload_time ) .. "J",
+            action = action
+          },
+          range = 18,
+          sound = gunshoot
+        },
+    
+        automatic = true,
+        categories = {"armor"}
+      }
+    end
+    
+    for size=1, magazine_size do
+    	data:extend{ load_turret(size) }
+    end
+  end 
+  
   local turret =
   {
     type = "active-defense-equipment",
@@ -80,8 +161,8 @@ function generate_turret(magazine)
     {
       type = "electric",
       usage_priority = "secondary-input",
-      buffer_capacity = magazine_size .. "MJ",
-      input_flow_limit = "1W",
+      buffer_capacity = magazine_size .. "J",
+      input_flow_limit = "0W",
     },
     attack_parameters =
     {
@@ -105,7 +186,7 @@ function generate_turret(magazine)
       ammo_type =
       {
         category = "bullet",
-        energy_consumption = "1MJ",
+        energy_consumption = "1J",
         action = action
       },
       range = 18,
@@ -120,6 +201,8 @@ function generate_turret(magazine)
   end
   data:extend{ turret }
 end
+
+-- data.raw.ammo["uranium-rounds-magazine"].reload_time = 2 * 60 -- 20 seconds
 
 generate_turret("no-magazine")
 for ammo_name, ammo in pairs(data.raw.ammo) do

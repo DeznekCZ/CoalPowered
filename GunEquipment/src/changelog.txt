@@ -1,4 +1,14 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.0.10
+Date: 2020-09-17 00:00
+  Fix:
+    - Turret can now count with reload time
+    - Default reload time at vanila magazines is 0
+    - Modified value to 2 seconds:
+        https://www.youtube.com/watch?v=uNASkhTxkGE
+  Author:
+    - DeznekCZ
+---------------------------------------------------------------------------------------------------
 Version: 0.0.9
 Date: 2020-09-16 14:12
   Bugfixes:

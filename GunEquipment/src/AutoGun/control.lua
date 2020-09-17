@@ -10,6 +10,7 @@ AutoGun = {
 }
 
 Energy_1MJ = 1000000
+Energy_1kJ = 1000
 VehicleTypes = { "car", "tank", "train", "spider-vehicle" }
 
 function AutoGun.AddMagazine(magazine)
@@ -35,21 +36,29 @@ function AutoGun.ReloadUnloaded(grid, weapon_ref, ammoInv, characterInv, magazin
     ammo_stack = characterInv.find_item_stack(magazine)
   end
 
-  if ammo_stack and ammo_stack.count > 0 then
-
-    if string.find(weapon.name, magazine, 1, true) then
-      -- same weapon as magazines
-    else -- switch weapon
-      local pos = weapon.position
+  local loading = weapon.energy > 0
+  if loading or (ammo_stack and ammo_stack.count > 0) then
+  
+    local pos = weapon.position
+    local reload_time = ammo_stack.prototype.reload_time;
+    if (reload_time > 0) then
+      grid.take{ equipment = weapon }
+      weapon = grid.put{
+          name = "personal-turret-" .. magazine
+              .. "-equipment-reload-" .. ammo_stack.ammo,
+          position = pos
+      }
+      weapon_ref.value = weapon
+      weapon.energy = 0
+    else
       grid.take{ equipment = weapon }
       weapon = grid.put{
           name = "personal-turret-" .. magazine .. "-equipment",
           position = pos
       }
       weapon_ref.value = weapon
+      weapon.energy = ammo_stack.ammo * Energy_1MJ
     end
-
-    weapon.energy = ammo_stack.ammo * Energy_1MJ
     -- game.players["DeznekCZ"].print("energy: " .. weapon.energy)
 
     if ammo_stack.count > 1 then
@@ -61,6 +70,7 @@ function AutoGun.ReloadUnloaded(grid, weapon_ref, ammoInv, characterInv, magazin
   else
     if string.find(weapon.name, "no-magazine", 1, true) then
       -- was switched
+      weapon.energy = 0
     else -- switch weapon
       local pos = weapon.position
       grid.take{ equipment = weapon }
@@ -75,10 +85,17 @@ end
 
 function AutoGun.Reload(grid, ammoInv, characterInv)
   local missing = {}
+  local loading = {}
+  
+  local pattern_empty = "personal%-turret%-([%w%-]+)%-equipment"  
+  local pattern_load = "personal%-turret%-([%w%-]+)%-equipment%-reload%-(%d+)"
 
   for id,weapon in pairs(grid.equipment) do
-    if string.find(weapon.name, "personal-turret", 1, true)
-        and weapon.energy < Energy_1MJ then
+    -- game.players["DeznekCZ"].print("energy: " ..  weapon.name .. " = " .. weapon.energy)
+    if string.match(weapon.name, pattern_load) then
+      loading[id] = weapon
+    elseif string.match(weapon.name, pattern_empty)
+        and weapon.energy == 0 then  
       missing[id] = weapon
     end
   end
@@ -91,6 +108,31 @@ function AutoGun.Reload(grid, ammoInv, characterInv)
       loaded = AutoGun.ReloadUnloaded(grid, weapon_ref, ammoInv, characterInv, magazine)
       if loaded then break end
     end
+  end
+
+  for id,weapon in pairs(loading) do
+    AutoGun.ContinueLoading(grid, weapon, ammoInv, characterInv)
+  end
+end
+
+function AutoGun.ContinueLoading(grid, weapon, ammoInv, characterInv)
+
+  local pattern = "personal%-turret%-([%w%-]+)%-equipment%-reload%-(%d+)"
+  local load_name = weapon.name
+  local magazine_name = string.gsub( load_name, pattern, "%1", 1 )
+  
+  if weapon.max_energy == weapon.energy then
+    local pos = weapon.position
+    grid.take{ equipment = weapon }
+    weapon = grid.put{
+        name = "personal-turret-" .. magazine_name .. "-equipment",
+        position = pos
+    }
+  
+    local magazine_load = string.gsub( load_name, pattern, "%2", 1 )
+    weapon.energy = tonumber( magazine_load )
+  else
+    weapon.energy = weapon.energy + 1
   end
 end
 
