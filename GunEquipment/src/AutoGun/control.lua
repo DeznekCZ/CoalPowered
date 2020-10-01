@@ -86,9 +86,9 @@ end
 function AutoGun.Reload(grid, ammoInv, characterInv)
   local missing = {}
   local loading = {}
-  
-  local pattern_empty = "personal%-turret%-([%w%-]+)%-equipment"  
-  local pattern_load = "personal%-turret%-([%w%-]+)%-equipment%-reload%-(%d+)"
+
+  local pattern_empty = "personal%-turret%-(.+)%-equipment"
+  local pattern_load = "personal%-turret%-(.+)%-equipment%-reload%-(%d+)"
 
   for id,weapon in pairs(grid.equipment) do
     -- game.players["DeznekCZ"].print("energy: " ..  weapon.name .. " = " .. weapon.energy)
@@ -117,7 +117,7 @@ end
 
 function AutoGun.ContinueLoading(grid, weapon, ammoInv, characterInv)
 
-  local pattern = "personal%-turret%-([%w%-]+)%-equipment%-reload%-(%d+)"
+  local pattern = "personal%-turret%-(.+)%-equipment%-reload%-(%d+)"
   local load_name = weapon.name
   local magazine_name = string.gsub( load_name, pattern, "%1", 1 )
   
@@ -140,12 +140,12 @@ function AutoGun.DirectDamageType(prototype, damage)
   damage.value = 0 -- clear value reference
   local ammo_type = prototype.get_ammo_type()
   for _,action in pairs(ammo_type.action) do
-    if string.match(action.type, "direct") then
+    if action.type == "direct" then
       for _,action_delivery in pairs(action.action_delivery) do
-        if string.match(action_delivery.type, "instant") then
+        if action_delivery.type == "instant" then
           for _,target_effect in pairs(action_delivery.target_effects) do
-            if string.match(target_effect.type, "damage") then
-            	-- some ammo has multiple direct instant damage sources
+            if target_effect.type == "damage" then
+              -- some ammo has multiple direct instant damage sources
               damage.value = damage.value + target_effect.damage.amount
             end
           end
@@ -160,9 +160,9 @@ function AutoGun.OnInit()
   local damageCache = {}
   for item_name, item_prototype in pairs(game.get_filtered_item_prototypes{{filter = 'type', type = 'ammo'}}) do -- We don't have to loop through every item
     local damage = { value = 0 }
-    if string.match(item_prototype.type, "ammo")
-      and game.equipment_prototypes["personal-turret-" .. item_name .. "-equipment"] -- ammo is acceptable
-      and AutoGun.DirectDamageType(item_prototype, damage) then
+    if game.equipment_prototypes["personal-turret-" .. item_name .. "-equipment"] -- ammo is acceptable
+      and AutoGun.DirectDamageType(item_prototype, damage)
+    then
       AutoGun.AddMagazine(item_name)
       damageCache[item_name] = damage.value
     end
@@ -208,7 +208,7 @@ function AutoGun.OnTick(player)
     if vehicle.valid then
       local driver = vehicle.get_driver()
       local passenger = nil
-      if string.match(vehicle.type,"car") then
+      if vehicle.type == "car" then
         passenger = vehicle.get_passenger()
       end
       if not driver and not passenger then
@@ -225,14 +225,8 @@ end
 
 function AutoGun.OnEntityBuild(entity)
   for _,Type in pairs(VehicleTypes) do
-    local len = string.len(entity.type)
-    Type = string.gsub(Type,"%-","%%-")
-    local match = string.match(entity.type, Type)
-    
-    if match and string.len(match) == len
-      and entity.grid then
+    if entity.type == Type and entity.grid then
       AutoGun.vehicles[entity.unit_number] = entity
-
       break
     end
   end

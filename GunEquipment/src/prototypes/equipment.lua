@@ -1,3 +1,5 @@
+local mul = require('math3d').vector2.mul
+
 function generate_turret(magazine)
   local gunshoot = require("__base__.prototypes.entity.demo-sounds").gun_turret_gunshot
   local action
@@ -53,9 +55,11 @@ function generate_turret(magazine)
     -- scale is bugged, so we need a blank scale 1 image first for icons.
     -- https://forums.factorio.com/viewtopic.php?f=7&t=71480&p=433700&hilit=scale#p433700
     -- which means all other icons will be rescaled according to this value.
+
+    -- layers[i].shift = mul(layers[i].shift or {0, 0}, layers[i].scale)
     -- If they are shifted we might need to adjust those values too by scaling them.
   end
-  if magazine_item 
+  if magazine_item
       and magazine_item.reload_time
       and magazine_item.reload_time > 0
     then

@@ -1,4 +1,13 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.0.11
+Date: 2020-09-24 11:10
+  Bugfixes:
+    - Turrets can now reload ammo with prototype names that include characters other than letters and dashes
+    - Fixed crash for some ammo items
+    - Reordered - DeznekCZ (https://mods.factorio.com/mod/GunEquipment/discussion/5f68d5ebed9c8a6b6711d51b)
+  Author:
+    - Qon (most optimalizations)
+---------------------------------------------------------------------------------------------------
 Version: 0.0.10
 Date: 2020-09-17 00:00
   Fix:
