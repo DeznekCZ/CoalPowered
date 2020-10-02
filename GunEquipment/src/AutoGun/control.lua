@@ -6,11 +6,17 @@
 ]]
 AutoGun = {
   magazines = { },
-  vehicles = { }
+  vehicles = { },
+  loading = {},
+  working = {}
 }
 
-Energy_1MJ = 1000000
-Energy_1kJ = 1000
+-- PROTOTYPE
+AutoGunInstance = {
+  grid_id = 0,
+  weapon_id = 0
+}
+
 VehicleTypes = { "car", "tank", "train", "spider-vehicle" }
 
 function AutoGun.AddMagazine(magazine)
@@ -57,7 +63,7 @@ function AutoGun.ReloadUnloaded(grid, weapon_ref, ammoInv, characterInv, magazin
           position = pos
       }
       weapon_ref.value = weapon
-      weapon.energy = ammo_stack.ammo * Energy_1MJ
+      weapon.energy = ammo_stack.ammo
     end
     -- game.players["DeznekCZ"].print("energy: " .. weapon.energy)
 
@@ -189,9 +195,41 @@ function AutoGun.OnInit()
     for _,vehicle in pairs(vehicles) do
       local grid = vehicle.grid
       if grid then
-        AutoGun.vehicles[vehicle.unit_number] = vehicle
+        AutoGun.OnGridChanged(grid, vehicle)
       end
     end
+  end
+end
+
+function AutoGun.OnGridChanged(grid, entity)
+  local pattern_working = "personal%-turret%-(.+)%-equipment"
+  local pattern_loading = "personal%-turret%-(.+)%-equipment%-reload%-(%d+)"
+
+  for _,weapon in pairs(grid.equipment) do
+    -- game.players["DeznekCZ"].print("energy: " ..  weapon.name .. " = " .. weapon.energy)
+    if string.match(weapon.name, pattern_loading) then
+      AutoGun.Enque( AutoGun.loading, entity, grid, weapon )
+    elseif string.match(weapon.name, pattern_working) then  
+      AutoGun.Enque( AutoGun.working, entity, grid, weapon )
+    end
+  end
+end
+
+function AutoGun.Enque(queue, entity, grid, weapon)
+  local raw = queue.raw
+  local entries = queue.entries
+  
+  local weapon_position = weapon.position
+  
+  if raw[entity.unit_id] then
+    local x_pos = raw[entity.unit_id][weapon_position.x]
+    if x_pos then
+      x_pos[weapon_position.y] = weapon
+    else
+    
+    end
+  else
+    
   end
 end
 
