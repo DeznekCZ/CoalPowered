@@ -139,7 +139,12 @@ end
 function AutoGun.DirectDamageType(prototype, damage)
   damage.value = 0 -- clear value reference
   local ammo_type = prototype.get_ammo_type()
-  for _,action in pairs(ammo_type.action) do
+  AutoGun.ActionDamage(damage, ammo_type.action)
+  return damage.value ~= 0
+end
+
+function AutoGun.ActionDamage(damage, actions)
+  for _,action in pairs(actions) do
     if action.type == "direct" then
       for _,action_delivery in pairs(action.action_delivery) do
         if action_delivery.type == "instant" then
@@ -149,11 +154,14 @@ function AutoGun.DirectDamageType(prototype, damage)
               damage.value = damage.value + target_effect.damage.amount
             end
           end
+        elseif action_delivery.type == "projectile" then
+          -- Projecty ammo type damage calculation
+          local projectile = game.entity_prototypes[action_delivery.projectile]
+          AutoGun.ActionDamage(damage, projectile.attack_result)
         end
       end
     end
   end
-  return damage.value ~= 0
 end
 
 function AutoGun.OnInit()
@@ -167,6 +175,7 @@ function AutoGun.OnInit()
       damageCache[item_name] = damage.value
     end
   end
+  log ("Magazines: " .. serpent.block( AutoGun.magazines ))
 
   -- Sort by damage
   table.sort(AutoGun.magazines, function(a, b) return damageCache[a] > damageCache[b] end)

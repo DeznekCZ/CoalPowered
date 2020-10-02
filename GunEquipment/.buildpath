@@ -4,4 +4,5 @@
 	<buildpathentry kind="src" path="src"/>
 	<buildpathentry kind="src" path="factorio_base"/>
 	<buildpathentry kind="src" path="factorio_core"/>
+	<buildpathentry kind="src" path="krastorio_2"/>
 </buildpath>

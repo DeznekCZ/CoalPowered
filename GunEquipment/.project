@@ -40,5 +40,10 @@
 			<type>2</type>
 			<location>C:/Program Files (x86)/Steam/steamapps/common/Factorio/data/core</location>
 		</link>
+		<link>
+			<name>krastorio_2</name>
+			<type>2</type>
+			<location>C:/Users/Phanteks/AppData/Roaming/Factorio/mods/Krastorio2_1.0.5</location>
+		</link>
 	</linkedResources>
 </projectDescription>

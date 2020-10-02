@@ -1,5 +1,10 @@
 local mul = require('math3d').vector2.mul
 
+GunEqupment_Grids = { "armor" }
+if mods["Krastorio2"] then  
+  GunEqupment_Grids = { "universal-equipment" }
+end
+
 function generate_turret(magazine)
   local gunshoot = require("__base__.prototypes.entity.demo-sounds").gun_turret_gunshot
   local action
@@ -59,7 +64,7 @@ function generate_turret(magazine)
     -- layers[i].shift = mul(layers[i].shift or {0, 0}, layers[i].scale)
     -- If they are shifted we might need to adjust those values too by scaling them.
   end
-  if magazine_item
+  if magazine_item -- no-magazine check
       and magazine_item.reload_time
       and magazine_item.reload_time > 0
     then
@@ -132,7 +137,7 @@ function generate_turret(magazine)
         },
     
         automatic = true,
-        categories = {"armor"}
+        categories = util.table.deepcopy( GunEqupment_Grids )
       }
     end
     
@@ -198,11 +203,12 @@ function generate_turret(magazine)
     },
 
     automatic = true,
-    categories = {"armor"}
+    categories = util.table.deepcopy( GunEqupment_Grids )
   }
   if not data.raw.ammo[magazine] then
     turret.localised_name = { "item-name.personal-turret-equipment-info", { "description.no-ammo" } }
   end
+  -- log (serpent.block( turret ))
   data:extend{ turret }
 end
 
@@ -210,5 +216,14 @@ end
 
 generate_turret("no-magazine")
 for ammo_name, ammo in pairs(data.raw.ammo) do
-  if ammo.ammo_type.category == 'bullet' then generate_turret(ammo_name) end
+  -- log("[" .. ammo_name .. "].ammo_type.category" .. ammo.ammo_type.category)
+  if ammo.ammo_type.category == "bullet" then
+    generate_turret(ammo_name)
+  elseif ammo.ammo_type.category == nil then
+    for _,ammo_type in pairs( ammo.ammo_type ) do
+      if ammo.ammo_type.category == "bullet" then
+        generate_turret(ammo_name)
+      end
+    end
+  end
 end

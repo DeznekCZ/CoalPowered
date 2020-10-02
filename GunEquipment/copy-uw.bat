@@ -1,6 +1,6 @@
 SET MOD_NAME=GunEquipment
 SET MOD_TITLE=Gun Equipment
-SET MOD_DEPENDENCIES=
+SET MOD_DEPENDENCIES="(?) Krastorio2 >= 1.0.0"
 SET MOD_AUTHOR=DeznekCZ
 SET MOD_AUTHOR_CONTACT=www.facebook.com/DeznekCZ
 SET MOD_HOMEAPAGE=
@@ -9,8 +9,8 @@ SET MOD_DESCRIPTION=Mode add automatic guns applyable to equipment grid.
 SET FACTORIO_VERSION=1.0
 SET FACTORIO_VERSION_MIN=1.0.0
 
-SET PREVIOUS_VERSION=0.0.10
-SET LAST_VERSION=0.0.11
+SET PREVIOUS_VERSION=0.0.11
+SET LAST_VERSION=0.0.12
 
 SET MOD_LOCATION=%1
 SET PREVIOUS_VERSION_LOCATION=%APPDATA%\Factorio\mods\%MOD_NAME%_%PREVIOUS_VERSION%
@@ -34,8 +34,8 @@ echo   "contact":          "%MOD_AUTHOR_CONTACT%",                              
 echo   "homepage":         "%MOD_HOMEAPAGE%",                                     >> %JSON%
 echo   "description":      "%MOD_DESCRIPTION%",                                   >> %JSON%
 echo   "factorio_version": "%FACTORIO_VERSION%",                                  >> %JSON%
-echo   "dependencies":     ["base >= %FACTORIO_VERSION_MIN%" ]                    >> %JSON%
-@rem echo   "dependencies":     ["base >= %FACTORIO_VERSION_MIN%", %MOD_DEPENDENCIES%] >> %JSON%
+@rem echo   "dependencies":     ["base >= %FACTORIO_VERSION_MIN%" ]                    >> %JSON%
+echo   "dependencies":     ["base >= %FACTORIO_VERSION_MIN%", %MOD_DEPENDENCIES%] >> %JSON%
 echo }                                                                            >> %JSON%
 
 DEL %LAST_VERSION_LOCATION%.zip
