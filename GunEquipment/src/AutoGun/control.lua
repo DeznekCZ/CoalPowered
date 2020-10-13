@@ -242,7 +242,9 @@ function AutoGun.OnEntityBuild(entity)
 end
 
 function AutoGun.OnEntityEnded(unit_number)
-  AutoGun.vehicles[unit_number] = nil
+  if AutoGun.vehicles[unit_number] then
+    AutoGun.vehicles[unit_number] = nil
+  end
 end
 
 function AutoGun.OnTakeOut(weapon, grid, owner)
