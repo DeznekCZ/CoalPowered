@@ -2,7 +2,7 @@ local mul = require('math3d').vector2.mul
 
 GunEqupment_Grids = { "armor" }
 if mods["Krastorio2"] then  
-  GunEqupment_Grids = { "universal-equipment" }
+  table.insert(GunEqupment_Grids, "universal-equipment")
 end
 
 function generate_turret(magazine)

@@ -1,4 +1,12 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.0.13
+Date: 2020-10-13 02:55 CET
+  Fix:
+    - Krastorio 2 ammo integration fix
+        https://mods.factorio.com/mod/GunEquipment/discussion/5f81af3a1eb77bb78de237ce
+  Author:
+    - Glendening
+---------------------------------------------------------------------------------------------------
 Version: 0.0.12
 Date: 2020-10-02 03:12 CET
   Fix:
