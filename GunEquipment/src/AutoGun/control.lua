@@ -213,7 +213,7 @@ function AutoGun.OnTick(player)
     AutoGun.Reload(grid, main_inventory, character_inventory)
   end
 
-  for _,vehicle in pairs(AutoGun.vehicles) do
+  for vehicle_id,vehicle in pairs(AutoGun.vehicles) do
     if vehicle.valid then
       local driver = vehicle.get_driver()
       local passenger = nil
@@ -228,6 +228,8 @@ function AutoGun.OnTick(player)
           AutoGun.Reload(grid, main_inventory, nil)
         end
       end
+    else
+      AutoGun.vehicles[vehicle_id] = nil
     end
   end
 end

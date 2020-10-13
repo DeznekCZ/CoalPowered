@@ -2,6 +2,14 @@
 Version: 0.0.13
 Date: 2020-10-13 02:55 CET
   Fix:
+    - Error while using mod Renai Transport
+        https://mods.factorio.com/mod/GunEquipment/discussion/5f80bec28fce08606d60b920
+  Author:
+    - Dominiquini
+---------------------------------------------------------------------------------------------------
+Version: 0.0.13
+Date: 2020-10-13 02:55 CET
+  Fix:
     - Krastorio 2 ammo integration fix
         https://mods.factorio.com/mod/GunEquipment/discussion/5f81af3a1eb77bb78de237ce
   Author:
