@@ -6,7 +6,7 @@ if mods["Krastorio2"] then
 end
 
 function generate_turret(magazine)
-  local gunshoot = require("__base__.prototypes.entity.demo-sounds").gun_turret_gunshot
+  local gunshoot = require("__base__.prototypes.entity.sounds").gun_turret_gunshot
   local action
   local magazine_size = 1
 
