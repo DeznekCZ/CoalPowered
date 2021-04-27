@@ -6,7 +6,7 @@ SET MOD_AUTHOR_CONTACT=www.facebook.com/DeznekCZ
 SET MOD_HOMEAPAGE=
 SET MOD_DESCRIPTION=Mod removes electricity transfers (no production, no consuption, no storage).\nPersonal turret equipment was moved to separate mod for future updates.
 
-SET FACTORIO_VERSION=1.0
+SET FACTORIO_VERSION=1.0.0
 SET FACTORIO_VERSION_MIN=1.0.0
 
 SET PREVIOUS_VERSION=0.0.27
