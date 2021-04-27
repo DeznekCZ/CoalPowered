@@ -3,6 +3,7 @@ local forbiden_technologies = {
   "electric-energy-accumulators-1",
   "advanced-material-processing-2",
   "laser-turrets",
+  "laser",
   "discharge-defense-equipment",
   "laser-turret-damage-1",
   "laser-turret-damage-2",
@@ -20,6 +21,14 @@ local forbiden_technologies = {
   "laser-turret-speed-6",
   "laser-turret-speed-7",
   "laser-turret-speed-8",
+  "laser-shooting-speed-1",
+  "laser-shooting-speed-2",
+  "laser-shooting-speed-3",
+  "laser-shooting-speed-4",
+  "laser-shooting-speed-5",
+  "laser-shooting-speed-6",
+  "laser-shooting-speed-7",
+  "laser-shooting-speed-8",
   "personal-laser-defense-equipment"
 }
 

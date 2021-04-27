@@ -44,6 +44,9 @@ local b_electric_furnace = data.raw.furnace["electric-furnace"]
 local b_storage_tank = data.raw["storage-tank"]["storage-tank"]
 local b_fluid_box = util.table.deepcopy( b_storage_tank.fluid_box )
 b_fluid_box.filter = "petroleum-gas"
+b_fluid_box.base_area = 1
+b_fluid_box.base_level = 0
+b_fluid_box.height = 50
 
 local m_gas_furnace = util.table.deepcopy( b_electric_furnace )
 m_gas_furnace.energy_source = {
