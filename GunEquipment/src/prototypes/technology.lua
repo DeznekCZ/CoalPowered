@@ -5,7 +5,7 @@ data:extend(
     name = "personal-turret-equipment",
     icon = "__GunEquipment__/graphics/technology/personal-turret-equipment.png",
     icon_size = 128,
-    prerequisites = { "modular-armor", "turrets", "military-science-pack" },
+    prerequisites = { "modular-armor", "gun-turret", "military-science-pack" },
     effects = 
     {
       {
