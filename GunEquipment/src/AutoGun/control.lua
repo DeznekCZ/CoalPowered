@@ -144,20 +144,22 @@ function AutoGun.DirectDamageType(prototype, damage)
 end
 
 function AutoGun.ActionDamage(damage, actions)
-  for _,action in pairs(actions) do
-    if action.type == "direct" then
-      for _,action_delivery in pairs(action.action_delivery) do
-        if action_delivery.type == "instant" then
-          for _,target_effect in pairs(action_delivery.target_effects) do
-            if target_effect.type == "damage" then
-              -- some ammo has multiple direct instant damage sources
-              damage.value = damage.value + target_effect.damage.amount
+  if actions then
+    for _,action in pairs(actions) do
+      if action.type == "direct" then
+        for _,action_delivery in pairs(action.action_delivery) do
+          if action_delivery.type == "instant" then
+            for _,target_effect in pairs(action_delivery.target_effects) do
+              if target_effect.type == "damage" then
+                -- some ammo has multiple direct instant damage sources
+                damage.value = damage.value + target_effect.damage.amount
+              end
             end
+          elseif action_delivery.type == "projectile" then
+            -- Projecty ammo type damage calculation
+            local projectile = game.entity_prototypes[action_delivery.projectile]
+            AutoGun.ActionDamage(damage, projectile.attack_result)
           end
-        elseif action_delivery.type == "projectile" then
-          -- Projecty ammo type damage calculation
-          local projectile = game.entity_prototypes[action_delivery.projectile]
-          AutoGun.ActionDamage(damage, projectile.attack_result)
         end
       end
     end

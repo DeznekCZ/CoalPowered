@@ -1,12 +1,13 @@
 ---------------------------------------------------------------------------------------------------
-Version: 0.0.12
-Date: 2020-27-04 17:13 CET
+Version: 0.0.15-16
+Date: 2020-05-05 18:00 CET
   Fix:
     - Base dependency was fixed
+    - nil definition of attack type
   Author:
     - DeznekCZ
 ---------------------------------------------------------------------------------------------------
-Version: 0.0.13
+Version: 0.0.14
 Date: 2020-10-13 02:55 CET
   Fix:
     - Error while using mod Renai Transport
