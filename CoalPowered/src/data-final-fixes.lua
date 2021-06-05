@@ -89,6 +89,7 @@ require ("prototypes.gearbox")
 require ("prototypes.module")
 require ("prototypes.loader")
 require ("prototypes.radar")
+require ("prototypes.tips")
 
 require ("prototypes.coal_armor.disable")
 require ("prototypes.coal_armor.mock")

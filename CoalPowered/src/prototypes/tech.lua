@@ -2,8 +2,11 @@ local forbiden_technologies = {
   "electric-energy-distribution-2",
   "electric-energy-accumulators-1",
   "advanced-material-processing-2",
-  "laser-turrets",
+  "laser-turret",
   "laser",
+  "defender",
+  "distractor",
+  "destroyer",
   "discharge-defense-equipment",
   "laser-turret-damage-1",
   "laser-turret-damage-2",
@@ -13,6 +16,14 @@ local forbiden_technologies = {
   "laser-turret-damage-6",
   "laser-turret-damage-7",
   "laser-turret-damage-8",
+  "energy-weapons-damage-1",
+  "energy-weapons-damage-2",
+  "energy-weapons-damage-3",
+  "energy-weapons-damage-4",
+  "energy-weapons-damage-5",
+  "energy-weapons-damage-6",
+  "energy-weapons-damage-7",
+  "energy-weapons-damage-8",
   "laser-turret-speed-1",
   "laser-turret-speed-2",
   "laser-turret-speed-3",
@@ -32,12 +43,8 @@ local forbiden_technologies = {
   "personal-laser-defense-equipment"
 }
 
-for tech_name, tech_data in pairs(data.raw.technology) do
-  for _, forbiden in pairs (forbiden_technologies) do
-     if forbiden == tech_name then
-      tech_data.enabled = false
-     end
-  end
+for _, forbiden in pairs (forbiden_technologies) do
+  data.raw.technology[forbiden] = nil
 end
 
 --[[
@@ -313,23 +320,6 @@ with (technology["rocket-silo"],
 technology["optics"] = nil
 technology["solar-energy"] = nil
 technology["electric-energy-distribution-2"] = nil
-
-technology["laser"] = nil
-technology["laser-turrets"] = nil
-technology["energy-weapons-damage-1"] = nil
-technology["energy-weapons-damage-2"] = nil
-technology["energy-weapons-damage-3"] = nil
-technology["energy-weapons-damage-4"] = nil
-technology["energy-weapons-damage-5"] = nil
-technology["energy-weapons-damage-6"] = nil
-technology["energy-weapons-damage-7"] = nil
-technology["laser-turret-speed-1"] = nil
-technology["laser-turret-speed-2"] = nil
-technology["laser-turret-speed-3"] = nil
-technology["laser-turret-speed-4"] = nil
-technology["laser-turret-speed-5"] = nil
-technology["laser-turret-speed-6"] = nil
-technology["laser-turret-speed-7"] = nil
 
 technology["advanced-electronics"] = nil
 technology["advanced-electronics-2"] = nil

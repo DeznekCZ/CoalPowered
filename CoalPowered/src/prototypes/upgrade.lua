@@ -26,7 +26,7 @@ data:extend{
   {
     type = "technology",
     name = "automation-4",
-    icon = "__base__/graphics/technology/automation.png",
+    icon = "__base__/graphics/technology/automation-3.png",
     icon_size = 128,
     prerequisites = { "automation-3", "utility-science-pack" },
     effects = 

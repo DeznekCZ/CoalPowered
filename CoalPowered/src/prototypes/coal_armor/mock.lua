@@ -159,7 +159,7 @@ data:extend{
       damage_modifier = 3,
       ammo_type =
       {
-        category = "laser-turret",
+        category = "laser",
         energy_consumption = "50kJ",
         action =
         {
