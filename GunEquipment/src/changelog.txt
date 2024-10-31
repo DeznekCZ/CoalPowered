@@ -1,4 +1,13 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.0.17
+Date: 2024-10-31 21:00 CET
+  Fix:
+    - when placed with better quality, was not removed with same
+  Known issues:
+    - is not able to use better quality ammo
+  Author:
+    - DeznekCZ
+---------------------------------------------------------------------------------------------------
 Version: 0.0.15-16
 Date: 2020-05-05 18:00 CET
   Fix:

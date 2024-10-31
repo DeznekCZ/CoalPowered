@@ -6,10 +6,13 @@ data:extend {
     energy_required = 10,
     ingredients =
     {
-      {"iron-gear-wheel", 5},
-      {"copper-plate", 5},
-      {"iron-plate", 10}
+      {type="item", name="iron-gear-wheel", amount=5},
+      {type="item", name="copper-plate", amount=5},
+      {type="item", name="iron-plate", amount=10}
     },
-    result = "personal-turret-equipment"
+    results = {
+      { type="item", name="personal-turret-equipment", amount=1 }
+    },
+    allow_quality = false -- quality is planned to do, but is not required now
   },
 }

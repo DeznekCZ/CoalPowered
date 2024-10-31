@@ -25,7 +25,7 @@ script.on_event({
       defines.events.on_built_entity, 
       defines.events.on_robot_built_entity
     }, function(event)
-  AutoGun.OnEntityBuild(event.created_entity)
+  AutoGun.OnEntityBuild(event.entity)
 end)
 
 local EntityEnded = function(event)
@@ -35,8 +35,8 @@ end
 script.on_event( defines.events.on_entity_died,         EntityEnded, {{filter = "vehicle"}} )
 script.on_event( defines.events.on_player_mined_entity, EntityEnded, {{filter = "vehicle"}} )
 script.on_event( defines.events.on_robot_mined_entity,  EntityEnded, {{filter = "vehicle"}} )
-script.on_event( defines.events.on_entity_destroyed,    function(event)
-  AutoGun.OnEntityEnded(event.unit_number)
+script.on_event( defines.events.on_object_destroyed,    function(event)
+  AutoGun.OnEntityEnded(event.registration_number)
 end )
 
 

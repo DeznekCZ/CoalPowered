@@ -14,7 +14,7 @@ Energy_1kJ = 1000
 VehicleTypes = { "car", "tank", "train", "spider-vehicle" }
 
 function AutoGun.AddMagazine(magazine)
-  if game.item_prototypes[magazine] then
+  if prototypes.item[magazine] then
     local found = nil
     for _,exists in pairs(AutoGun.magazines) do
       found = found or string.match(exists,magazine)
@@ -42,19 +42,23 @@ function AutoGun.ReloadUnloaded(grid, weapon_ref, ammoInv, characterInv, magazin
     local pos = weapon.position
     local reload_time = ammo_stack.prototype.reload_time;
     if (reload_time > 0) then
+      local quality = weapon.quality
       grid.take{ equipment = weapon }
       weapon = grid.put{
           name = "personal-turret-" .. magazine
               .. "-equipment-reload-" .. ammo_stack.ammo,
-          position = pos
+          position = pos,
+          quality = quality
       }
       weapon_ref.value = weapon
       weapon.energy = 0
     else
+      local quality = weapon.quality
       grid.take{ equipment = weapon }
       weapon = grid.put{
           name = "personal-turret-" .. magazine .. "-equipment",
-          position = pos
+          position = pos,
+          quality = quality
       }
       weapon_ref.value = weapon
       weapon.energy = ammo_stack.ammo * Energy_1MJ
@@ -148,7 +152,7 @@ function AutoGun.ActionDamage(damage, actions)
     for _,action in pairs(actions) do
       if action.type == "direct" then
         for _,action_delivery in pairs(action.action_delivery) do
-          if action_delivery.type == "instant" then
+          if (action_delivery.type == "instant") and (action_delivery.target_effects) then
             for _,target_effect in pairs(action_delivery.target_effects) do
               if target_effect.type == "damage" then
                 -- some ammo has multiple direct instant damage sources
@@ -157,7 +161,7 @@ function AutoGun.ActionDamage(damage, actions)
             end
           elseif action_delivery.type == "projectile" then
             -- Projecty ammo type damage calculation
-            local projectile = game.entity_prototypes[action_delivery.projectile]
+            local projectile = prototypes[action_delivery.projectile]
             AutoGun.ActionDamage(damage, projectile.attack_result)
           end
         end
@@ -168,13 +172,15 @@ end
 
 function AutoGun.OnInit()
   local damageCache = {}
-  for item_name, item_prototype in pairs(game.get_filtered_item_prototypes{{filter = 'type', type = 'ammo'}}) do -- We don't have to loop through every item
+  for item_name, item_prototype in pairs(prototypes.get_item_filtered{{filter = 'type', type = 'ammo'}}) do -- We don't have to loop through every item
     local damage = { value = 0 }
-    if game.equipment_prototypes["personal-turret-" .. item_name .. "-equipment"] -- ammo is acceptable
+    if prototypes.equipment["personal-turret-" .. item_name .. "-equipment"] -- ammo is acceptable
       and AutoGun.DirectDamageType(item_prototype, damage)
     then
       AutoGun.AddMagazine(item_name)
       damageCache[item_name] = damage.value
+    else
+      log ("Magazine not usable: " .. item_name)
     end
   end
   log ("Magazines: " .. serpent.block( AutoGun.magazines ))

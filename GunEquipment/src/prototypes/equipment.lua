@@ -11,49 +11,43 @@ function generate_turret(magazine)
   local magazine_size = 1
 
   local gun_turret = data.raw['ammo-turret']['gun-turret']
-  local prep_layer_1 = gun_turret.preparing_animation.layers[1]
-  function use_layer(layer) return
-    {
-      filename = layer.filename,
-      priority = layer.priority,
-      width = layer.width,
-      height = layer.height,
-      priority = layer.priority,
-      scale = (layer.scale or 1) * 1.2,
-      x = 0 * (layer.width),
-      y = 3 * (layer.height),
-    }
-  end
   local layers = {
-    use_layer(prep_layer_1)
+    {
+      filename = "__base__/graphics/entity/gun-turret/gun-turret-raising.png",
+      width = 130,
+      height = 126,
+      priority = "medium",
+      scale = 0.5 * 1.2,
+      x = 0 * 130,
+      y = 3 * 126,
+    }
   }
-  layers[1].hr_version = use_layer(prep_layer_1.hr_version)
 
   local magazine_localised_name
   local magazine_item = data.raw.ammo[magazine]
   if magazine_item then
     magazine_localised_name = magazine_item.localised_name
-    -- log(serpent.block(magazine_item))
+    log(serpent.block(magazine_item))
 
 		-- icon of magazine
     if magazine_item.icon then
-      table.insert(layers, {filename = magazine_item.icon, size = magazine_item.icon_size})
+      table.insert(layers, {filename = magazine_item.icon, size = magazine_item.icon_size or 64, scale = 0.5 * 64 / (magazine_item.icon_size or 64)})
     else
       for _, icon_data in ipairs(magazine_item.icons) do
         icon_data = table.deepcopy(icon_data)
         icon_data.filename = icon_data.icon
-        icon_data.size = icon_data.icon_size
+        icon_data.size = icon_data.icon_size or 64
+        icon_data.scale = 0.5 * 64 / (icon_data.icon_size or 64)
         table.insert(layers, icon_data)
       end
     end
-
+    
     magazine_size = magazine_item.magazine_size
     -- just copy the whole action. This means it will work with multiple complex effects like rampants incendiary ammo etc
     action = table.deepcopy(magazine_item.ammo_type.action)
   else
-    table.insert(layers, {filename = '__core__/graphics/icons/alerts/ammo-icon-red.png', size = 64}) -- no ammo graphic
+    table.insert(layers, {filename = '__core__/graphics/icons/alerts/ammo-icon-red.png', size = 64, scale = 0.5}) -- no ammo graphic       
   end
-  layers[2].scale = 0.5 * 64 / layers[2].size
 
   for i = 3, #layers do
     layers[i].scale = (layers[i].scale or 1) * 0.5 * 64 / layers[2].size -- YES, it's supposed to be layer[2].size and not layer[i].size
@@ -216,14 +210,7 @@ end
 
 generate_turret("no-magazine")
 for ammo_name, ammo in pairs(data.raw.ammo) do
-  -- log("[" .. ammo_name .. "].ammo_type.category" .. ammo.ammo_type.category)
-  if ammo.ammo_type.category == "bullet" then
+  if ammo.ammo_category == "bullet" then
     generate_turret(ammo_name)
-  elseif ammo.ammo_type.category == nil then
-    for _,ammo_type in pairs( ammo.ammo_type ) do
-      if ammo.ammo_type.category == "bullet" then
-        generate_turret(ammo_name)
-      end
-    end
   end
 end
