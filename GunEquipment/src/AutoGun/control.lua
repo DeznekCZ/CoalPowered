@@ -11,7 +11,7 @@ AutoGun = {
 
 Energy_1MJ = 1000000
 Energy_1kJ = 1000
-VehicleTypes = { "car", "tank", "train", "spider-vehicle" }
+VehicleTypes = { "car", "locomotive", "spider-vehicle", "artilery-wagon", "cargo-wagon", "fluid-wagon" }
 
 function AutoGun.AddMagazine(magazine)
   if prototypes.item[magazine] then
@@ -44,22 +44,37 @@ function AutoGun.ReloadUnloaded(grid, weapon_ref, ammoInv, characterInv, magazin
     if (reload_time > 0) then
       local quality = weapon.quality
       grid.take{ equipment = weapon }
-      weapon = grid.put{
-          name = "personal-turret-" .. magazine
-              .. "-equipment-reload-" .. ammo_stack.ammo,
-          position = pos,
-          quality = quality
-      }
+      if quality then
+        weapon = grid.put{
+            name = "personal-turret-" .. magazine
+                .. "-equipment-reload-" .. ammo_stack.ammo,
+            position = pos,
+            quality = quality
+        }
+      else
+        weapon = grid.put{
+            name = "personal-turret-" .. magazine
+                .. "-equipment-reload-" .. ammo_stack.ammo,
+            position = pos
+        }
+      end
       weapon_ref.value = weapon
       weapon.energy = 0
     else
       local quality = weapon.quality
       grid.take{ equipment = weapon }
-      weapon = grid.put{
-          name = "personal-turret-" .. magazine .. "-equipment",
-          position = pos,
-          quality = quality
-      }
+      if quality then
+        weapon = grid.put{
+            name = "personal-turret-" .. magazine .. "-equipment",
+            position = pos,
+            quality = quality
+        }
+      else
+        weapon = grid.put{
+            name = "personal-turret-" .. magazine .. "-equipment",
+            position = pos
+        }
+      end
       weapon_ref.value = weapon
       weapon.energy = ammo_stack.ammo * Energy_1MJ
     end
@@ -77,11 +92,20 @@ function AutoGun.ReloadUnloaded(grid, weapon_ref, ammoInv, characterInv, magazin
       weapon.energy = 0
     else -- switch weapon
       local pos = weapon.position
+      local quality = weapon.quality
       grid.take{ equipment = weapon }
-      weapon_ref.value = grid.put{
-        name = "personal-turret-no-magazine-equipment",
-        position = pos
-      }
+      if quality then
+        weapon_ref.value = grid.put{
+          name = "personal-turret-no-magazine-equipment",
+          position = pos,
+          quality = quality
+        }
+      else
+        weapon_ref.value = grid.put{
+          name = "personal-turret-no-magazine-equipment",
+          position = pos
+        }
+      end
     end
     return false -- No ammo (empty invetory on start)
   end
@@ -161,12 +185,25 @@ function AutoGun.ActionDamage(damage, actions)
             end
           elseif action_delivery.type == "projectile" then
             -- Projecty ammo type damage calculation
-            local projectile = prototypes[action_delivery.projectile]
-            AutoGun.ActionDamage(damage, projectile.attack_result)
+            AutoGun.ActionDamage(damage, action_delivery.final_action)
           end
         end
       end
     end
+  end
+end
+
+function AutoGun.GetVehicleInventory(vehicle)
+  return vehicle.get_inventory(defines.inventory.car_trunk)
+      or vehicle.get_inventory(defines.inventory.spider_trunk)
+      or vehicle.get_inventory(defines.inventory.cargo_wagon)
+end
+
+function AutoGun.AddVehicle(vehicle)
+  local grid = vehicle.grid
+  local invetory = AutoGun.GetVehicleInventory(vehicle);
+  if grid and invetory then
+    AutoGun.vehicles[vehicle.unit_number] = vehicle
   end
 end
 
@@ -193,12 +230,8 @@ function AutoGun.OnInit()
     local vehicles = surface.find_entities_filtered {
       type = VehicleTypes
     }
-
     for _,vehicle in pairs(vehicles) do
-      local grid = vehicle.grid
-      if grid then
-        AutoGun.vehicles[vehicle.unit_number] = vehicle
-      end
+      AutoGun.AddVehicle(vehicle)
     end
   end
 end
@@ -216,7 +249,7 @@ function AutoGun.OnTick(player)
   if player.driving
       and player.vehicle ~= nil and player.vehicle.grid ~= nil then
     local grid = player.vehicle.grid
-    local main_inventory = player.vehicle.get_inventory(defines.inventory.car_trunk)
+    local main_inventory = AutoGun.GetVehicleInventory(player.vehicle)
     local character_inventory = player.get_main_inventory()
     AutoGun.Reload(grid, main_inventory, character_inventory)
   end
@@ -231,7 +264,7 @@ function AutoGun.OnTick(player)
       if not driver and not passenger then
         -- game.players["DeznekCZ"].print("loading")
         local grid = vehicle.grid
-        local main_inventory = vehicle.get_inventory(defines.inventory.car_trunk)
+        local main_inventory = AutoGun.GetVehicleInventory(vehicle)
         if main_inventory then
           AutoGun.Reload(grid, main_inventory, nil)
         end
@@ -244,8 +277,8 @@ end
 
 function AutoGun.OnEntityBuild(entity)
   for _,Type in pairs(VehicleTypes) do
-    if entity.type == Type and entity.grid then
-      AutoGun.vehicles[entity.unit_number] = entity
+    if entity.type == Type then
+      AutoGun.AddVehicle(entity)
       break
     end
   end

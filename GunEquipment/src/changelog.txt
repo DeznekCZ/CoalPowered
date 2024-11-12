@@ -1,4 +1,27 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.0.21
+Date: 2024-10-31 22:30 CET
+  Fix:
+    - vehicle type miss-speling in wagons
+  Author:
+    - DeznekCZ
+---------------------------------------------------------------------------------------------------
+Version: 0.0.20
+Date: 2024-10-31 22:30 CET
+  Added:
+    - support for aditional vehicles, that may contain inventory for guns (cargo wagons)
+  Changed:
+    - added 20x Electronic Circuit to recipe for more realistic value
+  Author:
+    - DeznekCZ
+---------------------------------------------------------------------------------------------------
+Version: 0.0.19
+Date: 2024-10-31 22:30 CET
+  Fix:
+    - incompatibility with mod: https://mods.factorio.com/mod/visual_tracers
+  Author:
+    - DeznekCZ
+---------------------------------------------------------------------------------------------------
 Version: 0.0.17
 Date: 2024-10-31 21:00 CET
   Fix:

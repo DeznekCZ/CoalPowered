@@ -8,7 +8,8 @@ data:extend {
     {
       {type="item", name="iron-gear-wheel", amount=5},
       {type="item", name="copper-plate", amount=5},
-      {type="item", name="iron-plate", amount=10}
+      {type="item", name="iron-plate", amount=10},
+      {type="item", name="electronic-circuit", amount=10}
     },
     results = {
       { type="item", name="personal-turret-equipment", amount=1 }
