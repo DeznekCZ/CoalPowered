@@ -3,8 +3,18 @@ data:extend(
   {
     type = "technology",
     name = "personal-turret-equipment",
-    icon = "__GunEquipment__/graphics/technology/personal-turret-equipment.png",
-    icon_size = 128,
+    icons = {
+      {
+        icon = "__GunEquipment__/graphics/technology/personal-turret-equipment.png",
+        icon_size = 256,
+      },
+      {
+        icon = "__core__/graphics/icons/technology/constants/constant-equipment.png",
+        icon_size = 128,
+        scale = 0.5,
+        shift = {50, 50}
+      }
+    },
     prerequisites = { "modular-armor", "gun-turret", "military-science-pack" },
     effects = 
     {

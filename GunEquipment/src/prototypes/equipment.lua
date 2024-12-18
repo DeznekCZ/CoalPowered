@@ -13,13 +13,13 @@ function generate_turret(magazine)
   local gun_turret = data.raw['ammo-turret']['gun-turret']
   local layers = {
     {
-      filename = "__base__/graphics/entity/gun-turret/gun-turret-raising.png",
-      width = 130,
-      height = 126,
+      filename = "__GunEquipment__/graphics/equipment/personal-turret-equipment.png",
+      width = 128,
+      height = 128,
       priority = "medium",
-      scale = 0.5 * 1.2,
-      x = 0 * 130,
-      y = 3 * 126,
+      scale = 0.5,
+      x = 0,
+      y = 0,
     }
   }
 
